@@ -8,12 +8,16 @@ import { usePlayer } from "@/components/PlayerProvider";
 
 // Slots around the ring. Fewer tracks than this just repeat to fill it.
 const MIN_SLOTS = 12;
+// How far the ring may stretch sideways, as a multiple of its height radius.
+const MAX_STRETCH = 1.75;
 
 export function Hero({ tracks }: { tracks: Track[] }) {
   const { play, isActive, open } = usePlayer();
   const rootRef = useRef<HTMLElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const scriptRef = useRef<HTMLDivElement>(null);
+  const radiusProbe = useRef<HTMLDivElement>(null);
+  const tileProbe = useRef<HTMLDivElement>(null);
 
   const slots = useMemo(() => {
     if (tracks.length === 0) return [];
@@ -24,6 +28,26 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       angle: (360 / count) * i,
     }));
   }, [tracks]);
+
+  // Stretch the ring sideways to use the width the viewport has, keeping a gutter
+  // beside the outermost tiles. Read the CSS-driven radius and tile size via probes.
+  useEffect(() => {
+    const root = rootRef.current;
+    const radius = radiusProbe.current;
+    const tile = tileProbe.current;
+    if (!root || !radius || !tile) return;
+    const update = () => {
+      const ry = radius.offsetWidth;
+      if (!ry) return;
+      const gutter = root.clientWidth < 640 ? 28 : 40;
+      const rx = root.clientWidth / 2 - tile.offsetWidth / 2 - gutter;
+      root.style.setProperty("--kx", Math.min(MAX_STRETCH, Math.max(1, rx / ry)).toFixed(3));
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
 
   // Entrance, plus the slow drift of the script line.
   useEffect(() => {
@@ -71,7 +95,11 @@ export function Hero({ tracks }: { tracks: Track[] }) {
   }
 
   return (
-    <section ref={rootRef} className="hero relative h-[100svh] min-h-[560px] w-full overflow-hidden" aria-label="Featured tracks">
+    <section
+      ref={rootRef}
+      className="hero relative h-[100svh] min-h-[560px] w-full overflow-hidden"
+      aria-label="Featured tracks"
+    >
       <div
         aria-hidden
         data-hero-fade
@@ -98,26 +126,33 @@ export function Hero({ tracks }: { tracks: Track[] }) {
         {COPY.tagline}
       </p>
 
+      <div aria-hidden className="pointer-events-none invisible absolute left-0 top-0 h-0 overflow-hidden">
+        <div ref={radiusProbe} style={{ width: "var(--r)", height: 1 }} />
+        <div ref={tileProbe} style={{ width: "var(--s)", height: 1 }} />
+      </div>
+
       <div className="arc-mask absolute inset-0 z-10">
-        <div ref={carouselRef} className="carousel">
-          {slots.map(({ key, track, angle }) => (
-            <div key={key} className="slot" style={{ ["--a" as string]: `${angle}deg` }}>
-              <div className="counter">
-                <button
-                  type="button"
-                  data-track-id={track.id}
-                  data-playing={isActive(track.id)}
-                  className="slot-btn"
-                  aria-label={`Preview ${track.title}`}
-                  onClick={(e) => handleClick(track, e.currentTarget)}
-                >
-                  <span data-hero-art className="block h-full w-full">
-                    <img src={track.artwork} alt="" draggable={false} />
-                  </span>
-                </button>
+        <div className="ellipse">
+          <div ref={carouselRef} className="carousel">
+            {slots.map(({ key, track, angle }) => (
+              <div key={key} className="slot" style={{ ["--a" as string]: `${angle}deg` }}>
+                <div className="counter">
+                  <button
+                    type="button"
+                    data-track-id={track.id}
+                    data-playing={isActive(track.id)}
+                    className="slot-btn"
+                    aria-label={`Preview ${track.title}`}
+                    onClick={(e) => handleClick(track, e.currentTarget)}
+                  >
+                    <span data-hero-art className="block h-full w-full">
+                      <img src={track.artwork} alt="" draggable={false} />
+                    </span>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

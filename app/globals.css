@@ -48,6 +48,14 @@ body {
   mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
 }
 
+/* Stretches the ring into a wide ellipse (--kx is set from Hero.tsx). The tiles
+   are un-stretched again by .counter, so they stay upright and undistorted. */
+.ellipse {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(var(--kx, 1));
+}
+
 .carousel {
   position: absolute;
   left: 50%;
@@ -144,8 +152,11 @@ body {
 }
 
 @keyframes unspin {
+  from {
+    transform: rotate(0deg) scaleX(calc(1 / var(--kx, 1)));
+  }
   to {
-    transform: rotate(-360deg);
+    transform: rotate(-360deg) scaleX(calc(1 / var(--kx, 1)));
   }
 }
 

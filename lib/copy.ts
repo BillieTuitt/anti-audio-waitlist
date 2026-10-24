@@ -2,7 +2,7 @@
 // real wording before launch.
 export const COPY = {
   scriptLine: "ANTI AUDIO",
-  tagline: "Placeholder tagline goes here",
+  tagline: "JOIN THE WAITING LIST",
   heroHeading: "BIG SOUNDS FOR BIG IDEAS",
   hint: "Click an artwork to preview",
 };
