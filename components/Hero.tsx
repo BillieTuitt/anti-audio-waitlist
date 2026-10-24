@@ -75,7 +75,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       <div
         aria-hidden
         data-hero-fade
-        className="pointer-events-none absolute left-0 top-[24%] z-0 w-full select-none overflow-hidden"
+        className="pointer-events-none absolute left-0 top-[28%] z-0 w-full select-none overflow-hidden"
       >
         <div
           ref={scriptRef}
