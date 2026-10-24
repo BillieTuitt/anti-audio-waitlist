@@ -162,8 +162,8 @@ export function Hero({ tracks }: { tracks: Track[] }) {
         <div data-hero-centre className="flex flex-col items-center text-center">
           <img src="/brand/logo-wordmark.svg" alt="Anti Audio" style={{ width: "var(--wm)" }} />
           <h1
-            className="mt-5 text-balance font-display font-bold leading-[1.05] sm:mt-6"
-            style={{ width: "var(--heading-w)", fontSize: "clamp(18px, 2.4vw, 34px)" }}
+            className="mt-4 text-balance font-display font-bold leading-[1] sm:mt-6"
+            style={{ width: "var(--heading-w)", fontSize: "var(--heading-size)" }}
           >
             {COPY.heroHeading}
           </h1>
