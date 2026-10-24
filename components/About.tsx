@@ -27,13 +27,15 @@ export function About() {
       statementTl.to(".about-word", { opacity: 1, duration: 1, stagger: 0.14, ease: "none" });
       statementTl.to(".about-hl-bar", { scaleX: 1, duration: 1.2, stagger: 0.6, ease: "power2.out" }, ">-1.4");
 
-      gsap.from("[data-subline]", {
-        y: 28,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: "[data-subline]", start: "top 90%" },
-      });
+      for (const selector of ["[data-subline]", "[data-genres-para]"]) {
+        gsap.from(selector, {
+          y: 28,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: selector, start: "top 90%" },
+        });
+      }
     }, root);
 
     // Owners loads late and shifts the layout; re-measure once it has.
@@ -82,6 +84,28 @@ export function About() {
           className="mt-10 max-w-[56ch] font-sans text-[clamp(18px,1.7vw,26px)] leading-snug text-ink/80 sm:mt-14"
         >
           {ABOUT.subline}
+        </p>
+
+        <p
+          data-genres-para
+          className="mt-20 max-w-[42ch] font-sans text-[clamp(22px,2.6vw,40px)] leading-[1.3] text-ink/80 sm:mt-32"
+        >
+          {ABOUT.genres.map((part, i) =>
+            "pair" in part ? (
+              <span key={i} className="genre-pair" tabIndex={0}>
+                <span className="font-medium text-ink underline decoration-dashed decoration-2 underline-offset-[0.22em] transition-colors hover:decoration-accent">
+                  {part.pair}
+                </span>
+                <span aria-hidden className="genre-fan">
+                  {part.images.map((src) => (
+                    <img key={src} src={src} alt="" draggable={false} />
+                  ))}
+                </span>
+              </span>
+            ) : (
+              <span key={i}>{part.text}</span>
+            ),
+          )}
         </p>
       </div>
     </section>

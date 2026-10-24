@@ -20,5 +20,18 @@ export const ABOUT = {
     { text: "your content.", hl: true },
   ],
   subline:
-    "Anti Audio is a music licensing subscription for creators. Get unlimited downloads of exclusive tracks from real charting producers, licensed for your social content, podcasts and websites.",
+    "Anti Audio is a music licensing subscription platform for creators and creatives. Get unlimited downloads of exclusive tracks from real charting producers, licensed for your social content, podcasts and websites.",
+  // Second paragraph. Each `pair` gets a dashed underline and, on hover, a fan of two images.
+  // Placeholder wording and placeholder artwork; swap in real genre artwork when it exists.
+  genres: [
+    { text: "We only offer a tight, quality catalogue of culturally relevant music. From " },
+    { pair: "Trap & Drill", images: ["/artwork/placeholder-1.jpg", "/artwork/placeholder-2.jpg"] },
+    { text: " built for the feed, to " },
+    { pair: "House & Dance", images: ["/artwork/placeholder-3.jpg", "/artwork/placeholder-4.jpg"] },
+    { text: " made to move a room, " },
+    { pair: "Afrobeats & Rap", images: ["/artwork/placeholder-5.jpg", "/artwork/placeholder-1.jpg"] },
+    { text: " with real swagger and " },
+    { pair: "Grime & Garage", images: ["/artwork/placeholder-2.jpg", "/artwork/placeholder-3.jpg"] },
+    { text: " straight from the underground." },
+  ] as ({ text: string } | { pair: string; images: string[] })[],
 };
