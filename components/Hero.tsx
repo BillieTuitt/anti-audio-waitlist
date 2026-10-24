@@ -110,7 +110,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       >
         <div
           ref={scriptRef}
-          className="flex w-max whitespace-nowrap font-display text-[clamp(64px,15vw,220px)] font-bold leading-none text-white/35"
+          className="flex w-max whitespace-nowrap font-display text-[clamp(64px,15vw,220px)] font-bold leading-none text-[color:var(--banner)]"
         >
           {[0, 1].map((group) => (
             <div key={group} className="flex shrink-0 gap-[0.35em] pr-[0.35em]">
@@ -161,7 +161,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
 
       <div className="pointer-events-none absolute left-1/2 top-[var(--cy)] z-20 -translate-x-1/2 -translate-y-1/2">
         <div data-hero-centre className="flex flex-col items-center text-center">
-          <img src="/brand/logo-wordmark.svg" alt="Anti Audio" style={{ width: "var(--wm)" }} />
+          <span role="img" aria-label="Anti Audio" className="logo-wordmark" style={{ width: "var(--wm)" }} />
           <h1
             className="mt-4 text-balance font-display font-bold leading-[1] sm:mt-6"
             style={{ width: "var(--heading-w)", fontSize: "var(--heading-size)" }}

@@ -75,7 +75,7 @@ export function Releases({ tracks }: { tracks: Track[] }) {
                     type="button"
                     onClick={() => play(track)}
                     aria-label={`${playing ? "Pause" : "Preview"} ${track.title}`}
-                    className="border border-ink/30 px-3 py-1.5 font-mono sm:px-4 sm:py-2 text-[11px] tracking-wide transition-colors hover:border-ink hover:bg-ink hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                    className="border border-ink/30 px-3 py-1.5 font-mono sm:px-4 sm:py-2 text-[11px] tracking-wide transition-colors hover:border-ink hover:bg-ink hover:text-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {playing ? "Pause" : "Preview"}
                   </button>

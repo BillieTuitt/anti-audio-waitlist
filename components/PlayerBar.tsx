@@ -38,11 +38,7 @@ export function PlayerBar() {
       const tl = gsap.timeline();
       tl.to(player, { y: 0, duration: reduce ? 0 : 1, ease: "expo.out" });
       if (!wasOpen.current || status !== "ended") {
-        tl.to(
-          record,
-          { y: 0, opacity: 1, duration: reduce ? 0 : 0.9, ease: "back.out(1.3)" },
-          reduce ? 0 : 0.3,
-        );
+        tl.to(record, { y: 0, opacity: 1, duration: reduce ? 0 : 0.9, ease: "back.out(1.3)" }, reduce ? 0 : 0.3);
       }
       wasOpen.current = true;
     } else if (wasOpen.current) {
@@ -103,7 +99,7 @@ export function PlayerBar() {
         onPointerLeave={resumeDismiss}
         onFocus={pauseDismiss}
         onBlur={resumeDismiss}
-        className="relative z-10 flex items-center gap-3 rounded-2xl bg-white/65 px-4 py-3.5 shadow-[0_0_0_1px_rgba(21,22,27,0.08),0_18px_40px_rgba(21,22,27,0.12)] backdrop-blur-xl sm:gap-4 sm:px-6"
+        className="relative z-10 flex items-center gap-3 rounded-2xl bg-bg/70 px-4 py-3.5 shadow-[0_0_0_1px_rgb(var(--ink-rgb)/0.1),0_18px_40px_rgba(0,0,0,0.14)] backdrop-blur-xl sm:gap-4 sm:px-6"
       >
         {ended ? (
           <>
@@ -113,7 +109,7 @@ export function PlayerBar() {
             <button
               type="button"
               onClick={continueListening}
-              className="shrink-0 rounded-full bg-ink px-4 py-2 font-mono text-[11px] tracking-wide text-white transition hover:bg-ink/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              className="shrink-0 rounded-full bg-ink px-4 py-2 font-mono text-[11px] tracking-wide text-bg transition hover:bg-ink/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Continue listening
             </button>
@@ -121,7 +117,9 @@ export function PlayerBar() {
         ) : (
           <>
             <div className="min-w-0 flex-1" aria-live="polite">
-              <p className="font-mono text-[11px] tracking-wide text-ink/55">{mode === "preview" ? "Previewing" : "Playing"}</p>
+              <p className="font-mono text-[11px] tracking-wide text-ink/55">
+                {mode === "preview" ? "Previewing" : "Playing"}
+              </p>
               <p className="truncate font-display text-[18px] leading-tight sm:text-[22px]">{current?.title ?? ""}</p>
             </div>
             <p className="shrink-0 font-mono text-[11px] tabular-nums tracking-wide text-ink/70">
@@ -132,7 +130,7 @@ export function PlayerBar() {
               onClick={toggle}
               aria-label={playing ? "Pause preview" : "Play preview"}
               className="group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/25 transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-              style={{ backgroundColor: playing ? "#F6C944" : "transparent" }}
+              style={{ backgroundColor: playing ? "#F6C944" : "transparent", color: playing ? "#15161B" : undefined }}
             >
               {playing ? (
                 <>

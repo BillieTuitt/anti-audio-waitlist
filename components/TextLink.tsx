@@ -33,7 +33,7 @@ function IconCycle() {
   return (
     <span className="relative flex h-[1em] w-[1em] shrink-0">
       <span className={["absolute h-full w-full bg-ink transition-transform group-hover:rotate-90", EASE].join(" ")} />
-      <span className="relative flex h-full w-full items-center justify-end overflow-hidden text-[#E7EAF0]">
+      <span className="relative flex h-full w-full items-center justify-end overflow-hidden text-bg">
         <span className="flex h-full items-center">
           {[0, 1, 2].map((i) => (
             <span

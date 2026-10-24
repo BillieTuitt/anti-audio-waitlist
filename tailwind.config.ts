@@ -5,8 +5,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#EEEEEE",
-        ink: "#15161B",
+        // Theme colours come from CSS variables (see app/globals.css) so opacity modifiers still work.
+        bg: "rgb(var(--bg-rgb) / <alpha-value>)",
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
         accent: "#F6C944",
       },
       fontFamily: {
