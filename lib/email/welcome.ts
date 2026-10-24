@@ -40,8 +40,6 @@ function buildEmail(name: string) {
     "",
     "We'll be in touch when we launch. Until then, you can find us on Instagram: " + INSTAGRAM_URL,
     "",
-    "Visit the site: " + SITE_URL,
-    "",
     "The Anti Audio team",
     "",
     "--",
@@ -53,14 +51,6 @@ function buildEmail(name: string) {
 
   const sans = "'Helvetica Neue',Helvetica,Arial,sans-serif";
   const mono = "'SFMono-Regular',Menlo,Consolas,'Courier New',monospace";
-  const tiles = [1, 2, 3, 4]
-    .map(
-      (n) =>
-        `<td width="25%" style="padding:0 0 0 ${n === 1 ? "0" : "8px"};">` +
-        `<img src="${SITE_URL}/email/tile-${n}.jpg" width="100%" alt="" style="display:block;width:100%;height:auto;border:0;" /></td>`,
-    )
-    .join("");
-
   const html = `<!doctype html>
 <html lang="en-GB">
   <head>
@@ -82,8 +72,8 @@ function buildEmail(name: string) {
               <td style="padding:24px 24px 20px;border-bottom:1px solid #e2e2e2;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td align="left" style="font-family:${sans};font-size:15px;font-weight:700;letter-spacing:0.12em;color:#15161b;">
-                      <span style="display:inline-block;width:9px;height:9px;background:#f6c944;margin-right:10px;vertical-align:middle;font-size:0;line-height:0;">&nbsp;</span><span style="vertical-align:middle;">ANTI AUDIO</span>
+                    <td align="left">
+                      <img src="${SITE_URL}/email/logo-wordmark.png" width="150" alt="Anti Audio" style="display:block;width:150px;height:auto;border:0;" />
                     </td>
                     <td align="right" style="font-family:${mono};font-size:11px;letter-spacing:0.08em;color:#7a7b82;">WAITING LIST</td>
                   </tr>
@@ -91,29 +81,10 @@ function buildEmail(name: string) {
               </td>
             </tr>
 
-            <!-- Hero -->
+            <!-- Hero: one image, photo plus the headline in Owners Black -->
             <tr>
               <td style="padding:12px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#15161b;">
-                  <tr>
-                    <td align="center" style="padding:40px 20px 8px;">
-                      <span style="display:inline-block;background:#f6c944;color:#15161b;font-family:${mono};font-size:11px;font-weight:700;letter-spacing:0.1em;padding:5px 10px;">EARLY ACCESS</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="center" style="padding:36px 20px 0;font-family:${mono};font-size:13px;letter-spacing:0.08em;color:#8d8f98;">${escapeHtml(first ? `WELCOME, ${first.toUpperCase()}` : "WELCOME")}</td>
-                  </tr>
-                  <tr>
-                    <td align="center" style="padding:14px 20px 40px;font-family:${sans};font-size:42px;line-height:1.05;font-weight:700;color:#ffffff;">Thanks for joining<br />the waiting list.</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:0 20px 20px;">
-                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                        <tr>${tiles}</tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
+                <img src="${SITE_URL}/email/hero.jpg" width="552" alt="You're first in line" style="display:block;width:100%;height:auto;border:0;background:#15161b;" />
               </td>
             </tr>
 
@@ -126,17 +97,10 @@ function buildEmail(name: string) {
               </td>
             </tr>
 
-            <!-- Social -->
-            <tr>
-              <td align="center" style="padding:20px 24px 28px;">
-                <a href="${INSTAGRAM_URL}" style="display:inline-block;border:1px solid #15161b;padding:10px 16px;font-family:${mono};font-size:12px;letter-spacing:0.08em;color:#15161b;text-decoration:none;">INSTAGRAM &nbsp;@ANTI.AUDIO</a>
-              </td>
-            </tr>
-
             <!-- Button -->
             <tr>
-              <td align="center" style="padding:28px 24px;border-top:1px solid #e2e2e2;">
-                <a href="${SITE_URL}" style="display:inline-block;background:#15161b;color:#ffffff;padding:14px 26px;font-family:${sans};font-size:15px;font-weight:500;text-decoration:none;">Visit the site</a>
+              <td align="center" style="padding:28px 24px 32px;">
+                <a href="${INSTAGRAM_URL}" style="display:inline-block;background:#15161b;color:#ffffff;padding:14px 28px;font-family:${sans};font-size:14px;font-weight:500;letter-spacing:0.1em;text-decoration:none;">INSTAGRAM</a>
               </td>
             </tr>
 
