@@ -29,7 +29,7 @@ export function Releases({ tracks }: { tracks: Track[] }) {
 
       <ol className="m-0 list-none p-0">
         {tracks.map((track, index) => {
-          const number = String(tracks.length - index).padStart(3, "0");
+          const number = String(index + 1).padStart(3, "0");
           const active = isActive(track.id);
           const playing = isPlaying(track.id);
           return (
@@ -39,7 +39,7 @@ export function Releases({ tracks }: { tracks: Track[] }) {
                   {number}
                   <span
                     aria-hidden
-                    className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_0_1px_rgba(21,22,27,0.2)] transition-opacity duration-300"
+                    className="h-1.5 w-1.5 bg-accent shadow-[0_0_0_1px_rgba(21,22,27,0.2)] transition-opacity duration-300"
                     style={{ opacity: active ? 1 : 0 }}
                   />
                 </span>

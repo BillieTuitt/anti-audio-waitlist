@@ -78,7 +78,7 @@ export function PlayerBar() {
         </div>
       </div>
 
-      <div className="relative z-10 flex items-center gap-3 rounded-2xl bg-bg/70 px-4 py-3.5 shadow-[0_0_0_1px_rgb(var(--ink-rgb)/0.1),0_18px_40px_rgba(0,0,0,0.14)] backdrop-blur-xl sm:gap-4 sm:px-6">
+      <div className="relative z-10 flex items-center gap-3 bg-bg/70 px-4 py-3.5 shadow-[0_0_0_1px_rgb(var(--ink-rgb)/0.1),0_18px_40px_rgba(0,0,0,0.14)] backdrop-blur-xl sm:gap-4 sm:px-6">
         <div className="min-w-0 flex-1" aria-live="polite">
           <p className="font-mono text-[11px] tracking-wide text-ink/55">Now playing</p>
           <p className="truncate font-display text-[18px] leading-tight sm:text-[22px]">{current?.title ?? ""}</p>
@@ -90,7 +90,7 @@ export function PlayerBar() {
           type="button"
           onClick={toggle}
           aria-label={playing ? "Pause" : "Play"}
-          className="group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/25 transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="group relative flex h-9 w-9 shrink-0 items-center justify-center border border-ink/25 transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           style={{ backgroundColor: playing ? "#F6C944" : "transparent", color: playing ? "#15161B" : undefined }}
         >
           {playing ? (
@@ -111,7 +111,7 @@ export function PlayerBar() {
           type="button"
           onClick={close}
           aria-label="Close player"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink/60 transition hover:bg-ink/5 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="flex h-9 w-9 shrink-0 items-center justify-center text-ink/60 transition hover:bg-ink/5 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
             <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
@@ -119,7 +119,7 @@ export function PlayerBar() {
         </button>
 
         {/* Progress line along the bottom edge; the invisible range input on top makes it seekable. */}
-        <div aria-hidden className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-b-2xl bg-ink/10">
+        <div aria-hidden className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden bg-ink/10">
           <div className="h-full bg-accent" style={{ width: `${progress}%` }} />
         </div>
         <input

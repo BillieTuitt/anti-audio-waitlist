@@ -34,6 +34,15 @@ type Row = {
   release_date: string | null;
 };
 
+// The first five tracks, in this order, lead everywhere (list numbers 001 to 005 and the
+// hero ring). Everything else follows in the query's own order. Matched on title, ignoring case.
+const FEATURED_ORDER = ["sydney", "swan lake", "same for you", "dreamlife", "birkin"];
+
+function featuredRank(title: string): number {
+  const index = FEATURED_ORDER.indexOf(title.trim().toLowerCase());
+  return index === -1 ? FEATURED_ORDER.length : index;
+}
+
 export async function getTracks(): Promise<Track[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -60,6 +69,7 @@ export async function getTracks(): Promise<Track[]> {
 
   return (data ?? [])
     .filter((row) => row.preview_key)
+    .sort((a, b) => featuredRank(a.title) - featuredRank(b.title))
     .map((row, index) => ({
       id: row.id,
       title: row.title,
