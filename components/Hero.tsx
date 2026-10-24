@@ -42,11 +42,8 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       });
       gsap.from("[data-hero-centre]", { opacity: 0, scale: 0.85, duration: 1.2, ease: "power3.out" });
       gsap.from("[data-hero-fade]", { opacity: 0, duration: 1.4, ease: "power1.out", delay: 0.3 });
-      gsap.fromTo(
-        scriptRef.current,
-        { xPercent: -6 },
-        { xPercent: 6, duration: 40, ease: "sine.inOut", repeat: -1, yoyo: true },
-      );
+      // Two identical groups side by side; sliding one group's width loops seamlessly.
+      gsap.fromTo(scriptRef.current, { xPercent: 0 }, { xPercent: -50, duration: 90, ease: "none", repeat: -1 });
     }, rootRef);
     return () => ctx.revert();
   }, []);
@@ -76,12 +73,22 @@ export function Hero({ tracks }: { tracks: Track[] }) {
   return (
     <section ref={rootRef} className="hero relative h-[100svh] min-h-[560px] w-full overflow-hidden" aria-label="Featured tracks">
       <div
-        ref={scriptRef}
         aria-hidden
         data-hero-fade
-        className="pointer-events-none absolute left-0 top-[24%] z-0 w-full select-none whitespace-nowrap text-center font-display text-[clamp(64px,15vw,220px)] font-bold leading-none text-white/90 [text-shadow:0_0_1px_rgba(255,255,255,0.4)]"
+        className="pointer-events-none absolute left-0 top-[24%] z-0 w-full select-none overflow-hidden"
       >
-        {COPY.scriptLine}
+        <div
+          ref={scriptRef}
+          className="flex w-max whitespace-nowrap font-display text-[clamp(64px,15vw,220px)] font-bold leading-none text-white/35"
+        >
+          {[0, 1].map((group) => (
+            <div key={group} className="flex shrink-0 gap-[0.35em] pr-[0.35em]">
+              {Array.from({ length: 3 }, (_, i) => (
+                <span key={i}>{COPY.scriptLine}</span>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       <p
