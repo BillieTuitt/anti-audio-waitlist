@@ -70,7 +70,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       gsap.from("[data-hero-centre]", { opacity: 0, scale: 0.85, duration: 1.2, ease: "power3.out" });
       gsap.from("[data-hero-fade]", { opacity: 0, duration: 1.4, ease: "power1.out", delay: 0.3 });
       // Two identical groups side by side; sliding one group's width loops seamlessly.
-      gsap.fromTo(scriptRef.current, { xPercent: 0 }, { xPercent: -50, duration: 90, ease: "none", repeat: -1 });
+      gsap.fromTo(scriptRef.current, { xPercent: 0 }, { xPercent: -50, duration: 220, ease: "none", repeat: -1 });
     }, rootRef);
     return () => ctx.revert();
   }, []);
@@ -122,13 +122,6 @@ export function Hero({ tracks }: { tracks: Track[] }) {
         </div>
       </div>
 
-      <p
-        data-hero-fade
-        className="absolute left-3 top-1/2 z-10 -translate-y-1/2 font-mono text-[11px] tracking-wide text-ink/60 [text-orientation:mixed] [writing-mode:vertical-rl] rotate-180 sm:left-6"
-      >
-        {COPY.tagline}
-      </p>
-
       <div aria-hidden className="pointer-events-none invisible absolute left-0 top-0 h-0 overflow-hidden">
         <div ref={radiusProbe} style={{ width: "var(--r)", height: 1 }} />
         <div ref={tileProbe} style={{ width: "var(--s)", height: 1 }} />
@@ -163,7 +156,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
         <div data-hero-centre className="flex flex-col items-center text-center">
           <span role="img" aria-label="Anti Audio" className="logo-wordmark" style={{ width: "var(--wm)" }} />
           <h1
-            className="mt-4 text-balance font-display font-bold leading-[1] sm:mt-6"
+            className="mt-4 text-balance font-display font-black leading-[1] sm:mt-6"
             style={{ width: "var(--heading-w)", fontSize: "var(--heading-size)" }}
           >
             {COPY.heroHeading}

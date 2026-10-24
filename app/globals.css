@@ -3,28 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --bg: #eeeeee;
-  --bg-rgb: 238 238 238;
-  --ink: #15161b;
-  --ink-rgb: 21 22 27;
-  --accent: #f6c944;
-  /* The big "ANTI AUDIO" banner behind the hero: white on light grey, a faint lift on dark. */
-  --banner: rgba(255, 255, 255, 0.35);
-  color-scheme: light;
-}
-
-:root[data-theme="dark"] {
   --bg: #15161b;
   --bg-rgb: 21 22 27;
   --ink: #e7eaf0;
   --ink-rgb: 231 234 240;
+  --accent: #f6c944;
+  /* The big "ANTI AUDIO" banner behind the hero: a faint lift on the dark background. */
   --banner: rgba(255, 255, 255, 0.06);
+  /* Highlight bar insets, set so the cap height sits centred in the yellow. */
+  --hl-top: -0.0275em;
+  --hl-bottom: 0.0525em;
   color-scheme: dark;
 }
 
 html {
   background: var(--bg);
-  transition: background-color 0.35s ease;
 }
 
 /* All DM Mono text (labels, numbers, buttons) is set in capitals. */
@@ -35,7 +28,6 @@ html {
 body {
   background: var(--bg);
   color: var(--ink);
-  transition: background-color 0.35s ease, color 0.35s ease;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,7 +38,7 @@ body {
   --r: min(calc(43vw - 34px), 44vh);
   --s: calc(var(--r) * 0.36);
   --wm: calc(var(--r) * 0.5);
-  --heading-size: min(calc(var(--r) * 0.25), calc(var(--r) * var(--kx, 1) * 0.2));
+  --heading-size: min(calc(var(--r) * 0.23), calc(var(--r) * var(--kx, 1) * 0.18));
   --heading-w: calc(var(--r) * var(--kx, 1) * 1.7);
   --cy: 62%;
 }
@@ -248,15 +240,26 @@ body {
   }
 }
 
+/* A silver CD: brushed-metal base, a rainbow sheen that turns with the disc, a
+   fine track ring and a clear plastic hub around the artwork. */
 .record {
   position: relative;
   width: var(--record);
   height: var(--record);
   border-radius: 50%;
   background:
-    conic-gradient(from 20deg, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0.16) 38deg, rgba(255, 255, 255, 0) 90deg, rgba(255, 255, 255, 0) 180deg, rgba(255, 255, 255, 0.16) 218deg, rgba(255, 255, 255, 0) 270deg),
-    repeating-radial-gradient(circle at center, #1d1e24 0 2px, #121317 2px 4px);
-  box-shadow: 0 10px 30px rgba(21, 22, 27, 0.25);
+    /* clear hub */
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.55) 0 27%, rgba(255, 255, 255, 0.85) 27.4% 28.2%, rgba(0, 0, 0, 0.1) 28.6% 29.4%, transparent 30%),
+    /* fine tracks */
+    repeating-radial-gradient(circle at center, rgba(0, 0, 0, 0.045) 0 1px, transparent 1px 3px),
+    /* rainbow sheen */
+    conic-gradient(from 0deg, rgba(255, 255, 255, 0) 0deg, rgba(255, 110, 190, 0.38) 28deg, rgba(110, 190, 255, 0.4) 58deg, rgba(255, 255, 255, 0.75) 92deg, rgba(255, 255, 255, 0) 130deg, rgba(255, 255, 255, 0) 182deg, rgba(255, 225, 110, 0.34) 208deg, rgba(110, 255, 200, 0.36) 238deg, rgba(255, 255, 255, 0.75) 272deg, rgba(255, 255, 255, 0) 312deg),
+    /* silver base */
+    conic-gradient(from 20deg, #d6d9df, #f5f7fa, #b8bcc5, #eceef2, #c2c6ce, #f5f7fa, #d6d9df);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+    inset 0 0 0 3px rgba(0, 0, 0, 0.08),
+    0 10px 30px rgba(0, 0, 0, 0.45);
   animation: record-spin 3s linear infinite;
   animation-play-state: paused;
 }

@@ -16,7 +16,7 @@ export default async function Page() {
     <PlayerProvider>
       <main>
         <Hero tracks={tracks} />
-        <About tracks={tracks} />
+        <About />
         <Releases tracks={tracks} />
         {/* Acknowledgements go here later. */}
         <section aria-label="Acknowledgements" className="min-h-[40vh]" />

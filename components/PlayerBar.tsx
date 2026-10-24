@@ -86,7 +86,7 @@ export function PlayerBar() {
               <img
                 src={current.artwork}
                 alt=""
-                className="absolute left-1/2 top-1/2 h-[40%] w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full object-cover"
+                className="absolute left-1/2 top-1/2 h-[36%] w-[36%] -translate-x-1/2 -translate-y-1/2 rounded-full object-cover shadow-[0_0_0_2px_rgba(255,255,255,0.8)]"
               />
             )}
             <span className="absolute left-1/2 top-1/2 h-[5%] w-[5%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-bg" />
