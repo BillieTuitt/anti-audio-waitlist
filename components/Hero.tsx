@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import type { Track } from "@/lib/tracks";
 import { COPY } from "@/lib/copy";
 import { usePlayer } from "@/components/PlayerProvider";
+import { TextLink } from "@/components/TextLink";
 
 // Slots around the ring. Fewer tracks than this just repeat to fill it.
 const MIN_SLOTS = 12;
@@ -167,6 +168,10 @@ export function Hero({ tracks }: { tracks: Track[] }) {
           >
             {COPY.heroHeading}
           </h1>
+          {/* No waitlist backend yet, so this does nothing on click for now. */}
+          <div className="pointer-events-auto mt-6 sm:mt-8">
+            <TextLink className="text-[16px]">{COPY.heroCta}</TextLink>
+          </div>
         </div>
       </div>
 
