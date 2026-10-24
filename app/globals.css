@@ -302,3 +302,27 @@ body {
     animation: none;
   }
 }
+
+
+/* ---------- About ---------- */
+
+.about-word {
+  color: rgba(21, 22, 27, 0.14);
+}
+
+.vinyl {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 20deg, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0.16) 38deg, rgba(255, 255, 255, 0) 90deg, rgba(255, 255, 255, 0) 180deg, rgba(255, 255, 255, 0.16) 218deg, rgba(255, 255, 255, 0) 270deg),
+    repeating-radial-gradient(circle at center, #1d1e24 0 3px, #121317 3px 6px);
+  box-shadow: 0 30px 80px rgba(21, 22, 27, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-word {
+    color: #15161b;
+  }
+}

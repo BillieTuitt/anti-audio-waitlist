@@ -1,3 +1,4 @@
+import { About } from "@/components/About";
 import { Hero } from "@/components/Hero";
 import { Releases } from "@/components/Releases";
 import { Footer } from "@/components/Footer";
@@ -15,8 +16,7 @@ export default async function Page() {
     <PlayerProvider>
       <main>
         <Hero tracks={tracks} />
-        {/* About block goes here later. */}
-        <section aria-label="About" className="min-h-[50vh]" />
+        <About tracks={tracks} />
         <Releases tracks={tracks} />
         {/* Acknowledgements go here later. */}
         <section aria-label="Acknowledgements" className="min-h-[40vh]" />
