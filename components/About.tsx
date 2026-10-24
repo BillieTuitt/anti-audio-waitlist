@@ -1,12 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ABOUT } from "@/lib/copy";
 
 export function About() {
   const rootRef = useRef<HTMLElement>(null);
+  // Which genre pair's image fan is open. Only used on touch screens, where there is no hover:
+  // a tap opens it and a second tap (or a tap anywhere else) closes it.
+  const [openPair, setOpenPair] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (openPair === null) return;
+    const close = (event: PointerEvent) => {
+      if (!(event.target as Element).closest(".genre-pair")) setOpenPair(null);
+    };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [openPair]);
+
+  function togglePair(index: number) {
+    if (!window.matchMedia("(hover: none)").matches) return;
+    setOpenPair((current) => (current === index ? null : index));
+  }
 
   useEffect(() => {
     const root = rootRef.current;
@@ -92,7 +109,18 @@ export function About() {
         >
           {ABOUT.genres.map((part, i) =>
             "pair" in part ? (
-              <span key={i} className="genre-pair" tabIndex={0}>
+              <span
+                key={i}
+                className="genre-pair"
+                tabIndex={0}
+                role="button"
+                aria-expanded={openPair === i}
+                data-open={openPair === i}
+                onClick={() => togglePair(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") setOpenPair(null);
+                }}
+              >
                 <span className="font-medium text-ink underline decoration-dashed decoration-2 underline-offset-[0.22em] transition-colors hover:decoration-accent">
                   {part.pair}
                 </span>

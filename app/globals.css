@@ -50,6 +50,7 @@ body {
     --wm: calc(var(--r) * 0.85);
     --heading-size: min(calc(var(--r) * 0.22), calc(var(--r) * var(--kx, 1) * 0.2));
     --heading-w: calc(var(--r) * 1.6);
+    --cy: 50%;
   }
 }
 
@@ -403,18 +404,35 @@ body {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
 }
 
-.genre-pair:hover .genre-fan img,
-.genre-pair:focus .genre-fan img {
+/* Open states: hover (mouse), keyboard focus, or data-open (set by a tap on touch screens,
+   and closed by a second tap). A plain :focus rule is avoided because a tap leaves focus
+   behind, which would keep the fan open. */
+@media (hover: hover) {
+  .genre-pair:hover .genre-fan img {
+    opacity: 1;
+  }
+
+  .genre-pair:hover .genre-fan img:nth-child(1) {
+    transform: translate(-88%, 0) rotate(-9deg) scale(1);
+  }
+
+  .genre-pair:hover .genre-fan img:nth-child(2) {
+    transform: translate(-12%, -8px) rotate(8deg) scale(1);
+  }
+}
+
+.genre-pair:focus-visible .genre-fan img,
+.genre-pair[data-open="true"] .genre-fan img {
   opacity: 1;
 }
 
-.genre-pair:hover .genre-fan img:nth-child(1),
-.genre-pair:focus .genre-fan img:nth-child(1) {
+.genre-pair:focus-visible .genre-fan img:nth-child(1),
+.genre-pair[data-open="true"] .genre-fan img:nth-child(1) {
   transform: translate(-88%, 0) rotate(-9deg) scale(1);
 }
 
-.genre-pair:hover .genre-fan img:nth-child(2),
-.genre-pair:focus .genre-fan img:nth-child(2) {
+.genre-pair:focus-visible .genre-fan img:nth-child(2),
+.genre-pair[data-open="true"] .genre-fan img:nth-child(2) {
   transform: translate(-12%, -8px) rotate(8deg) scale(1);
 }
 
