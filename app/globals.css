@@ -423,3 +423,47 @@ body {
     transition: opacity 0.2s ease;
   }
 }
+
+/* ---------- Sign up ---------- */
+
+.signup-check {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 1px solid rgb(var(--ink-rgb) / 0.6);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.signup-check:hover {
+  border-color: var(--ink);
+}
+
+/* The tick is a small yellow square. */
+.signup-check::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.signup-check:checked::after {
+  transform: scale(1);
+}
+
+.signup-check:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.signup-check[aria-invalid="true"] {
+  border-color: var(--accent);
+}

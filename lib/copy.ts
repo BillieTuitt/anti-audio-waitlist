@@ -35,3 +35,26 @@ export const ABOUT = {
     { text: " straight from the underground." },
   ] as ({ text: string } | { pair: string; images: string[] })[],
 };
+
+// Sign-up block at the bottom of the page. Draft wording to be reviewed.
+export const SIGNUP = {
+  eyebrow: "Early access",
+  heading: "Join the waiting list",
+  subline: "Join our waiting list for early access and exclusive offers.",
+  nameLabel: "Name",
+  namePlaceholder: "Your name",
+  emailLabel: "Email",
+  emailPlaceholder: "you@email.com",
+  consent: "I agree to be contacted about the waiting list, early access and exclusive offers.",
+  button: "Join the waiting list",
+  buttonBusy: "Joining",
+  successTitle: "You're on the list.",
+  successBody: "Keep an eye on your inbox for early access and exclusive offers.",
+  errors: {
+    name: "Tell us your name.",
+    email: "Enter a valid email address.",
+    consent: "Tick the box so we know we can contact you.",
+    generic: "Something went wrong. Please try again.",
+  },
+};
+

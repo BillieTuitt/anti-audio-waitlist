@@ -14,6 +14,15 @@ const MAX_STRETCH = 1.35;
 // ...and never wider than this share of the viewport on each side of centre.
 const MAX_HALF_WIDTH = 0.36;
 
+// The hero link scrolls to the sign-up form at the bottom of the page and focuses its first field.
+function goToSignup() {
+  const section = document.getElementById("join");
+  if (!section) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  section.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  window.setTimeout(() => document.getElementById("signup-name")?.focus({ preventScroll: true }), reduce ? 0 : 900);
+}
+
 export function Hero({ tracks }: { tracks: Track[] }) {
   const { play, isActive, open } = usePlayer();
   const rootRef = useRef<HTMLElement>(null);
@@ -161,9 +170,11 @@ export function Hero({ tracks }: { tracks: Track[] }) {
           >
             {COPY.heroHeading}
           </h1>
-          {/* No waitlist backend yet, so this does nothing on click for now. */}
+
           <div className="pointer-events-auto mt-6 sm:mt-8">
-            <TextLink className="text-[16px]">{COPY.heroCta}</TextLink>
+            <TextLink className="text-[16px]" onClick={goToSignup}>
+              {COPY.heroCta}
+            </TextLink>
           </div>
         </div>
       </div>

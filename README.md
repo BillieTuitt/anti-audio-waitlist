@@ -25,10 +25,18 @@ npm run dev                  # http://localhost:3010
 same public columns as the main app's catalogue. The producer is only used as a filter;
 its name is never selected or shown. Tracks with no `preview_key` are skipped.
 
+## Sign up form
+
+The form at the bottom of the page posts to `app/api/waitlist/route.ts`, which validates name,
+email and consent (with a honeypot field). **It does not store anything yet.** In development it
+logs the sign up and returns success so the form can be designed and tested. In production it
+returns a 503 ("Sign ups are not open just yet") rather than silently dropping people's details.
+Before launch, wire it to a real destination (an email tool, a CRM, or a Supabase table with an
+insert policy) and add a privacy notice link next to the consent checkbox.
+
 ## Placeholders to replace
 
 - Artwork: `public/artwork/placeholder-*.jpg`, cycled by position (see `lib/tracks.ts`).
 - Copy: `lib/copy.ts` (script line, vertical tagline, hero label, hint).
-- Blank sections: About and Acknowledgements in `app/page.tsx`.
 - Owners font: Adobe Fonts kit `fqf0rlk`, linked in `app/layout.tsx`. Add the live domain
   to the kit's domain list in Adobe Fonts or it will fall back to Helvetica.
