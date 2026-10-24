@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { SIGNUP } from "@/lib/copy";
+import { sendWelcomeEmail } from "@/lib/email/welcome";
 
 // Stores sign ups in the existing Supabase project's `waitlist_signups` table (see the
 // 0032_waitlist_signups.sql migration in the main Anti Audio repo). That table is
@@ -49,9 +50,16 @@ export async function POST(request: Request) {
     source: "waitlist-site",
   });
 
+  // Saved. Only now send the welcome email; a failure is logged inside and never reaches the
+  // person signing up.
+  if (!error) {
+    await sendWelcomeEmail(email, name);
+    return NextResponse.json({ ok: true });
+  }
+
   // A repeat sign up (unique email) looks identical to a new one, so the form can't be
-  // used to find out who is already on the list.
-  if (!error || error.code === "23505") return NextResponse.json({ ok: true });
+  // used to find out who is already on the list. It does not get a second email.
+  if (error.code === "23505") return NextResponse.json({ ok: true });
 
   // The table has not been created yet: development simulates success so the form can be
   // tested; production refuses rather than quietly dropping people's details.

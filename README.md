@@ -18,6 +18,7 @@ npm run dev                  # http://localhost:3010
 | `NEXT_PUBLIC_SUPABASE_URL` | The existing Anti Audio Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | That project's anon (public) key. Read-only, row-level security applies |
 | `R2_PUBLIC_URL` | Public URL of the R2 previews bucket (same value as the main app) |
+| `RESEND_API_KEY` | Resend key used to send the welcome email (send-only is enough) |
 
 ## Data
 
@@ -33,11 +34,15 @@ Supabase project. The table comes from `supabase/migrations/0032_waitlist_signup
 Anti Audio repo and is **insert-only for the anon key**, so this site needs no secret key and the
 public key can never read anyone's details back. A repeat email counts as success.
 
+After a new sign up is saved, `lib/email/welcome.ts` sends a short welcome email through Resend (from
+`hello@mail.antiaudio.com`, replies to `hello@antiaudio.com`). It needs `RESEND_API_KEY`. If the email
+fails the sign up still succeeds and the failure is only logged; a repeat sign up sends nothing.
+
 Until that migration has been run in the Supabase SQL Editor, development simulates success and
 production returns a 503 rather than silently dropping details.
 
-The privacy notice at `/privacy` is a **draft**: complete the bracketed details (company, contact
-email, retention, email provider) and have it reviewed before launch.
+The privacy notice at `/privacy` is a **draft**: complete the remaining bracketed detail (retention
+period) and have it reviewed before launch.
 
 ## Placeholders to replace
 

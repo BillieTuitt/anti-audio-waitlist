@@ -13,10 +13,19 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
   {
     title: "Who we are",
     body: (
-      <p>
-        Anti Audio runs this waiting list and decides how your details are used. [Add the legal entity name, registered
-        address and a contact email for privacy questions.]
-      </p>
+      <>
+        <p>
+          This waiting list is run by ANTI AUDIO LTD, which decides how your details are used. Our registered address is
+          26c Dartmouth Road, London, United Kingdom, NW2 4EX.
+        </p>
+        <p>
+          For anything about your details, email us at{" "}
+          <a href="mailto:hello@antiaudio.com" className="text-ink underline decoration-dashed underline-offset-4">
+            hello@antiaudio.com
+          </a>
+          .
+        </p>
+      </>
     ),
   },
   {
@@ -50,9 +59,9 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
     body: (
       <p>
         We do not sell your details. We use service providers to run the site and store your details: hosting (Vercel),
-        our database (Supabase) and [the email service we will use to contact you]. They may only use your details to
-        provide those services. Some of them are based outside the UK, in which case we rely on the safeguards UK data
-        protection law requires.
+        our database (Supabase) and our email service (Resend), which sends you our emails. They may only use your
+        details to provide those services. Some of them are based outside the UK, in which case we rely on the
+        safeguards UK data protection law requires.
       </p>
     ),
   },
@@ -73,8 +82,8 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
           <li>stop contacting you at any time.</li>
         </ul>
         <p>
-          To do any of this, email us at [privacy contact email]. If you are unhappy with how we handle your details,
-          you can complain to the Information Commissioner&apos;s Office at ico.org.uk.
+          To do any of this, email us at hello@antiaudio.com. If you are unhappy with how we handle your details, you
+          can complain to the Information Commissioner&apos;s Office at ico.org.uk.
         </p>
       </>
     ),
@@ -90,7 +99,7 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
   },
   {
     title: "Changes",
-    body: <p>We may update this notice. [Add the date it was last updated.]</p>,
+    body: <p>We may update this notice. It was last updated on 24 October 2026.</p>,
   },
 ];
 
