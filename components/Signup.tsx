@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SIGNUP } from "@/lib/copy";
-import { TextLink } from "@/components/TextLink";
+import { PrimaryButton } from "@/components/PrimaryButton";
 
 type Status = "idle" | "submitting" | "success";
 type Errors = { name?: string; email?: string; consent?: string; form?: string };
@@ -60,7 +60,7 @@ export function Signup() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
 
-  // A gentle entrance, plus the faint banner drifting behind.
+  // A gentle entrance as the block scrolls into view.
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -76,7 +76,6 @@ export function Signup() {
         stagger: 0.12,
         scrollTrigger: { trigger: root, start: "top 70%" },
       });
-      gsap.fromTo("[data-banner]", { xPercent: 0 }, { xPercent: -50, duration: 220, ease: "none", repeat: -1 });
     }, root);
 
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
@@ -139,22 +138,6 @@ export function Signup() {
       aria-label="Join the waiting list"
       className="relative overflow-hidden border-t border-dotted border-ink/25 py-24 sm:py-36"
     >
-      {/* Same faint banner as the hero: bold, filled, drifting slowly behind the content. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none">
-        <div
-          data-banner
-          className="flex w-max whitespace-nowrap font-display text-[clamp(64px,15vw,220px)] font-bold uppercase leading-none text-[color:var(--banner)]"
-        >
-          {[0, 1].map((group) => (
-            <div key={group} className="flex shrink-0 gap-[0.35em] pr-[0.35em]">
-              {[0, 1, 2].map((i) => (
-                <span key={i}>Waiting list</span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-16 px-4 sm:px-8 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] md:gap-20">
         {/* Left: the invitation */}
         <div>
@@ -164,7 +147,7 @@ export function Signup() {
           </p>
           <h2
             data-signup-rise
-            className="mt-8 font-display text-[clamp(44px,6.4vw,104px)] font-medium leading-[0.98] tracking-[-0.015em] sm:mt-10"
+            className="mt-8 font-display text-[clamp(40px,6vw,98px)] font-medium uppercase leading-[0.98] tracking-[-0.01em] sm:mt-10"
           >
             <span className="block">Join the</span>
             <span className="block">waiting list</span>
@@ -272,9 +255,14 @@ export function Signup() {
             </p>
 
             <div className="mt-6">
-              <TextLink type="submit" disabled={busy} aria-busy={busy} className="text-[16px] disabled:cursor-wait">
+              <PrimaryButton
+                type="submit"
+                disabled={busy}
+                aria-busy={busy}
+                className="text-[16px] disabled:cursor-wait"
+              >
                 {busy ? SIGNUP.buttonBusy : SIGNUP.button}
-              </TextLink>
+              </PrimaryButton>
             </div>
           </form>
         )}
