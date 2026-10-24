@@ -3,19 +3,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Track } from "@/lib/tracks";
 
-export const PREVIEW_SECONDS = 15;
-// How long the "Enjoyed the preview?" bar waits before closing itself.
-const END_STATE_SECONDS = 6;
-
-export type PlayerStatus = "idle" | "playing" | "paused" | "ended";
-type Mode = "preview" | "full";
+export type PlayerStatus = "idle" | "playing" | "paused";
 
 interface PlayerState {
   /** Last track played. Kept while the bar slides away so it never empties mid-animation. */
   current: Track | null;
   open: boolean;
   status: PlayerStatus;
-  mode: Mode;
   elapsed: number;
   total: number;
   /** True only while this track is audibly playing or paused, never after the bar closed. */
@@ -23,11 +17,8 @@ interface PlayerState {
   isPlaying: (trackId: string) => boolean;
   play: (track: Track) => void;
   toggle: () => void;
-  continueListening: () => void;
+  seek: (seconds: number) => void;
   close: () => void;
-  /** Hold / restart the auto-close countdown on the "Enjoyed the preview?" bar. */
-  pauseDismiss: () => void;
-  resumeDismiss: () => void;
 }
 
 const PlayerContext = createContext<PlayerState | null>(null);
@@ -38,16 +29,14 @@ export function usePlayer(): PlayerState {
   return ctx;
 }
 
+// One audio element for the whole page. Tracks play in full; the bar closes when one finishes.
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const endTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const modeRef = useRef<Mode>("preview");
   const statusRef = useRef<PlayerStatus>("idle");
 
   const [current, setCurrent] = useState<Track | null>(null);
   const [open, setOpen] = useState(false);
   const [status, setStatusState] = useState<PlayerStatus>("idle");
-  const [mode, setModeState] = useState<Mode>("preview");
   const [elapsed, setElapsed] = useState(0);
   const [mediaDuration, setMediaDuration] = useState(0);
 
@@ -56,51 +45,20 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setStatusState(next);
   }, []);
 
-  const setMode = useCallback((next: Mode) => {
-    modeRef.current = next;
-    setModeState(next);
-  }, []);
-
-  const clearEndTimer = useCallback(() => {
-    if (endTimer.current) clearTimeout(endTimer.current);
-    endTimer.current = null;
-  }, []);
-
   const close = useCallback(() => {
-    clearEndTimer();
     audioRef.current?.pause();
     setOpen(false);
     setStatus("idle");
-  }, [clearEndTimer, setStatus]);
+  }, [setStatus]);
 
-  const startEndTimer = useCallback(() => {
-    clearEndTimer();
-    endTimer.current = setTimeout(close, END_STATE_SECONDS * 1000);
-  }, [clearEndTimer, close]);
-
-  const finishPreview = useCallback(() => {
-    audioRef.current?.pause();
-    setElapsed(PREVIEW_SECONDS);
-    setStatus("ended");
-    startEndTimer();
-  }, [setStatus, startEndTimer]);
-
-  const resumeDismiss = useCallback(() => {
-    if (statusRef.current === "ended") startEndTimer();
-  }, [startEndTimer]);
-
-  // One audio element for the whole page, created on the client only.
+  // Created on the client only.
   useEffect(() => {
     const audio = new Audio();
     audio.preload = "none";
     audioRef.current = audio;
 
     const onMeta = () => setMediaDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
-    const onEnded = () => {
-      // A short file that ends before 15s, or the full file once "continue" was chosen.
-      if (modeRef.current === "preview") finishPreview();
-      else close();
-    };
+    const onEnded = () => close();
     const onError = () => close();
     audio.addEventListener("loadedmetadata", onMeta);
     audio.addEventListener("durationchange", onMeta);
@@ -115,28 +73,20 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       audio.removeEventListener("error", onError);
       audioRef.current = null;
     };
-  }, [close, finishPreview]);
+  }, [close]);
 
-  // Drive the clock with rAF while playing so the 15s cut-off is exact.
+  // Drive the clock with rAF while playing so the progress line stays smooth.
   useEffect(() => {
     if (status !== "playing") return;
     let frame = 0;
     const tick = () => {
       const audio = audioRef.current;
-      if (audio) {
-        setElapsed(audio.currentTime);
-        if (modeRef.current === "preview" && audio.currentTime >= PREVIEW_SECONDS) {
-          finishPreview();
-          return;
-        }
-      }
+      if (audio) setElapsed(audio.currentTime);
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [status, finishPreview]);
-
-  useEffect(() => () => clearEndTimer(), [clearEndTimer]);
+  }, [status]);
 
   const startPlayback = useCallback(() => {
     const audio = audioRef.current;
@@ -151,10 +101,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     (track: Track) => {
       const audio = audioRef.current;
       if (!audio) return;
-      clearEndTimer();
 
       // Same track, bar open: behave like the play/pause button.
-      if (open && current?.id === track.id && statusRef.current !== "ended") {
+      if (open && current?.id === track.id) {
         if (statusRef.current === "playing") {
           audio.pause();
           setStatus("paused");
@@ -168,13 +117,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       audio.currentTime = 0;
       setMediaDuration(0);
       setElapsed(0);
-      setMode("preview");
       setCurrent(track);
       setOpen(true);
       setStatus("playing");
       startPlayback();
     },
-    [clearEndTimer, current?.id, open, setMode, setStatus, startPlayback],
+    [current?.id, open, setStatus, startPlayback],
   );
 
   const toggle = useCallback(() => {
@@ -188,33 +136,30 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [setStatus, startPlayback]);
 
-  const continueListening = useCallback(() => {
-    clearEndTimer();
-    setMode("full");
-    startPlayback();
-  }, [clearEndTimer, setMode, startPlayback]);
+  const seek = useCallback((seconds: number) => {
+    const audio = audioRef.current;
+    if (!audio || !Number.isFinite(seconds)) return;
+    audio.currentTime = Math.max(0, seconds);
+    setElapsed(audio.currentTime);
+  }, []);
 
-  const trackDuration = mediaDuration || current?.durationSeconds || 0;
-  const total = mode === "preview" ? Math.min(PREVIEW_SECONDS, trackDuration || PREVIEW_SECONDS) : trackDuration;
+  const total = mediaDuration || current?.durationSeconds || 0;
 
   const value = useMemo<PlayerState>(
     () => ({
       current,
       open,
       status,
-      mode,
       elapsed,
       total,
       isActive: (id) => open && current?.id === id && (status === "playing" || status === "paused"),
       isPlaying: (id) => open && current?.id === id && status === "playing",
       play,
       toggle,
-      continueListening,
+      seek,
       close,
-      pauseDismiss: clearEndTimer,
-      resumeDismiss,
     }),
-    [current, open, status, mode, elapsed, total, play, toggle, continueListening, close, clearEndTimer, resumeDismiss],
+    [current, open, status, elapsed, total, play, toggle, seek, close],
   );
 
   return <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>;

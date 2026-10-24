@@ -81,7 +81,7 @@ export function About() {
 
         <p
           data-subline
-          className="mt-10 max-w-[56ch] font-sans text-[clamp(18px,1.7vw,26px)] leading-snug text-ink/80 sm:mt-14"
+          className="mt-10 max-w-[42ch] font-sans text-[clamp(22px,2.6vw,40px)] leading-[1.3] text-ink/80 sm:mt-14"
         >
           {ABOUT.subline}
         </p>

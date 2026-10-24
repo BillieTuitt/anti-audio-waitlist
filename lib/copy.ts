@@ -4,7 +4,7 @@ export const COPY = {
   scriptLine: "WAITING LIST",
   heroHeading: "BIG SOUNDS FOR BIG IDEAS",
   heroCta: "Join the waiting list",
-  hint: "Click an artwork to preview",
+  hint: "Click an artwork to play",
 };
 
 // About section. Claims are checked against the main app's pricing (lib/pricing.ts:

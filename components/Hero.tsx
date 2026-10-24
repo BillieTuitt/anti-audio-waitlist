@@ -138,7 +138,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
                     data-track-id={track.id}
                     data-playing={isActive(track.id)}
                     className="slot-btn"
-                    aria-label={`Preview ${track.title}`}
+                    aria-label={`Play ${track.title}`}
                     onClick={(e) => handleClick(track, e.currentTarget)}
                   >
                     <span data-hero-art className="block h-full w-full">

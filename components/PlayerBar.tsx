@@ -10,8 +10,7 @@ const HIDDEN_Y = 300;
 const RECORD_SINK = 80;
 
 export function PlayerBar() {
-  const { current, open, status, mode, elapsed, total, toggle, continueListening, close, pauseDismiss, resumeDismiss } =
-    usePlayer();
+  const { current, open, status, elapsed, total, toggle, seek, close } = usePlayer();
   const playerRef = useRef<HTMLDivElement>(null);
   const recordRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
@@ -37,9 +36,7 @@ export function PlayerBar() {
     if (open) {
       const tl = gsap.timeline();
       tl.to(player, { y: 0, duration: reduce ? 0 : 1, ease: "expo.out" });
-      if (!wasOpen.current || status !== "ended") {
-        tl.to(record, { y: 0, opacity: 1, duration: reduce ? 0 : 0.9, ease: "back.out(1.3)" }, reduce ? 0 : 0.3);
-      }
+      tl.to(record, { y: 0, opacity: 1, duration: reduce ? 0 : 0.9, ease: "back.out(1.3)" }, reduce ? 0 : 0.3);
       wasOpen.current = true;
     } else if (wasOpen.current) {
       wasOpen.current = false;
@@ -48,29 +45,16 @@ export function PlayerBar() {
         .to(record, { y: RECORD_SINK, opacity: 0, duration: reduce ? 0 : 0.4, ease: "power2.in" })
         .to(player, { y: HIDDEN_Y, duration: reduce ? 0 : 0.8, ease: "power3.in" }, reduce ? 0 : 0.15);
     }
-    // status is deliberately not a dependency: the end-state effect below owns that transition.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  // "Enjoyed the preview?": the vinyl sinks back behind the bar while we wait.
-  useEffect(() => {
-    const record = recordRef.current;
-    if (!record || !open) return;
-    if (status === "ended") {
-      gsap.to(record, { y: RECORD_SINK, opacity: 0, duration: 0.5, ease: "power2.inOut", overwrite: "auto" });
-    } else if (status === "playing" && wasOpen.current) {
-      gsap.to(record, { y: 0, opacity: 1, duration: 0.7, ease: "back.out(1.3)", overwrite: "auto" });
-    }
-  }, [status, open]);
-
-  const ended = status === "ended";
   const playing = status === "playing";
+  const progress = total > 0 ? Math.min(100, (elapsed / total) * 100) : 0;
 
   return (
     <div
       ref={playerRef}
       role="region"
-      aria-label="Preview player"
+      aria-label="Player"
       aria-hidden={!open}
       // `inert` is not in React 18's types yet; the attribute still works.
       {...(!open ? { inert: "" as unknown as boolean } : {})}
@@ -94,60 +78,35 @@ export function PlayerBar() {
         </div>
       </div>
 
-      <div
-        onPointerMove={pauseDismiss}
-        onPointerLeave={resumeDismiss}
-        onFocus={pauseDismiss}
-        onBlur={resumeDismiss}
-        className="relative z-10 flex items-center gap-3 rounded-2xl bg-bg/70 px-4 py-3.5 shadow-[0_0_0_1px_rgb(var(--ink-rgb)/0.1),0_18px_40px_rgba(0,0,0,0.14)] backdrop-blur-xl sm:gap-4 sm:px-6"
-      >
-        {ended ? (
-          <>
-            <p className="min-w-0 flex-1 font-display text-[18px] leading-tight sm:text-[22px]" aria-live="polite">
-              Enjoyed the preview?
-            </p>
-            <button
-              type="button"
-              onClick={continueListening}
-              className="shrink-0 rounded-full bg-ink px-4 py-2 font-mono text-[11px] tracking-wide text-bg transition hover:bg-ink/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-            >
-              Continue listening
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="min-w-0 flex-1" aria-live="polite">
-              <p className="font-mono text-[11px] tracking-wide text-ink/55">
-                {mode === "preview" ? "Previewing" : "Playing"}
-              </p>
-              <p className="truncate font-display text-[18px] leading-tight sm:text-[22px]">{current?.title ?? ""}</p>
-            </div>
-            <p className="shrink-0 font-mono text-[11px] tabular-nums tracking-wide text-ink/70">
-              {formatTime(elapsed)} / {formatTime(total)}
-            </p>
-            <button
-              type="button"
-              onClick={toggle}
-              aria-label={playing ? "Pause preview" : "Play preview"}
-              className="group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/25 transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-              style={{ backgroundColor: playing ? "#F6C944" : "transparent", color: playing ? "#15161B" : undefined }}
-            >
-              {playing ? (
-                <>
-                  <span className="flex h-[14px] w-[14px] items-center justify-between transition duration-200 group-hover:scale-50 group-hover:opacity-0">
-                    <span className="eq-bar" />
-                    <span className="eq-bar" />
-                    <span className="eq-bar" />
-                    <span className="eq-bar" />
-                  </span>
-                  <PauseIcon className="absolute scale-125 opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100" />
-                </>
-              ) : (
-                <PlayIcon />
-              )}
-            </button>
-          </>
-        )}
+      <div className="relative z-10 flex items-center gap-3 rounded-2xl bg-bg/70 px-4 py-3.5 shadow-[0_0_0_1px_rgb(var(--ink-rgb)/0.1),0_18px_40px_rgba(0,0,0,0.14)] backdrop-blur-xl sm:gap-4 sm:px-6">
+        <div className="min-w-0 flex-1" aria-live="polite">
+          <p className="font-mono text-[11px] tracking-wide text-ink/55">Now playing</p>
+          <p className="truncate font-display text-[18px] leading-tight sm:text-[22px]">{current?.title ?? ""}</p>
+        </div>
+        <p className="shrink-0 font-mono text-[11px] tabular-nums tracking-wide text-ink/70">
+          {formatTime(elapsed)} / {formatTime(total)}
+        </p>
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={playing ? "Pause" : "Play"}
+          className="group relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/25 transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          style={{ backgroundColor: playing ? "#F6C944" : "transparent", color: playing ? "#15161B" : undefined }}
+        >
+          {playing ? (
+            <>
+              <span className="flex h-[14px] w-[14px] items-center justify-between transition duration-200 group-hover:scale-50 group-hover:opacity-0">
+                <span className="eq-bar" />
+                <span className="eq-bar" />
+                <span className="eq-bar" />
+                <span className="eq-bar" />
+              </span>
+              <PauseIcon className="absolute scale-125 opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100" />
+            </>
+          ) : (
+            <PlayIcon />
+          )}
+        </button>
         <button
           type="button"
           onClick={close}
@@ -158,6 +117,21 @@ export function PlayerBar() {
             <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
           </svg>
         </button>
+
+        {/* Progress line along the bottom edge; the invisible range input on top makes it seekable. */}
+        <div aria-hidden className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-b-2xl bg-ink/10">
+          <div className="h-full bg-accent" style={{ width: `${progress}%` }} />
+        </div>
+        <input
+          type="range"
+          aria-label="Seek"
+          min={0}
+          max={Math.max(total, 1)}
+          step={0.1}
+          value={Math.min(elapsed, Math.max(total, 1))}
+          onChange={(e) => seek(parseFloat(e.target.value))}
+          className="absolute inset-x-3 -bottom-1.5 h-4 w-[calc(100%-1.5rem)] cursor-pointer opacity-0"
+        />
       </div>
     </div>
   );
