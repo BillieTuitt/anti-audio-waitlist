@@ -9,7 +9,9 @@ import { usePlayer } from "@/components/PlayerProvider";
 // Slots around the ring. Fewer tracks than this just repeat to fill it.
 const MIN_SLOTS = 12;
 // How far the ring may stretch sideways, as a multiple of its height radius.
-const MAX_STRETCH = 1.75;
+const MAX_STRETCH = 1.35;
+// ...and never wider than this share of the viewport on each side of centre.
+const MAX_HALF_WIDTH = 0.36;
 
 export function Hero({ tracks }: { tracks: Track[] }) {
   const { play, isActive, open } = usePlayer();
@@ -40,7 +42,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       const ry = radius.offsetWidth;
       if (!ry) return;
       const gutter = root.clientWidth < 640 ? 28 : 40;
-      const rx = root.clientWidth / 2 - tile.offsetWidth / 2 - gutter;
+      const rx = Math.min(root.clientWidth / 2 - tile.offsetWidth / 2 - gutter, root.clientWidth * MAX_HALF_WIDTH);
       root.style.setProperty("--kx", Math.min(MAX_STRETCH, Math.max(1, rx / ry)).toFixed(3));
     };
     update();
