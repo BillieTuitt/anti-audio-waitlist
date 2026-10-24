@@ -12,6 +12,11 @@ html {
   background: var(--bg);
 }
 
+/* All DM Mono text (labels, numbers, buttons) is set in capitals. */
+.font-mono {
+  text-transform: uppercase;
+}
+
 body {
   background: var(--bg);
   color: var(--ink);

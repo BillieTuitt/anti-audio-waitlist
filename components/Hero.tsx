@@ -133,12 +133,14 @@ export function Hero({ tracks }: { tracks: Track[] }) {
         </div>
       </div>
 
+      {/* GSAP fades the <p> in; the inner span owns the CSS fade-out while the player is open. */}
       <p
         data-hero-fade
-        className="absolute bottom-7 left-0 right-0 z-20 text-center font-mono text-[11px] tracking-wide text-ink/55 transition-opacity duration-500"
-        style={{ opacity: open ? 0 : undefined }}
+        className="pointer-events-none absolute bottom-7 left-0 right-0 z-30 text-center font-mono text-[11px] tracking-wide text-ink"
       >
-        {COPY.hint}
+        <span className="transition-opacity duration-500" style={{ opacity: open ? 0 : 1 }}>
+          {COPY.hint}
+        </span>
       </p>
     </section>
   );
