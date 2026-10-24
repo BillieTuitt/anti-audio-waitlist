@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #eeeeee;
+  --ink: #15161b;
+  --accent: #f6c944;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Hero arc ---------- */
+
+.hero {
+  --r: min(44vw, 45vh);
+  --s: calc(var(--r) * 0.26);
+  --c: calc(var(--r) * 0.52);
+  --cy: 53%;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    --r: min(35vw, 45vh);
+    --s: calc(var(--r) * 0.31);
+    --c: calc(var(--r) * 0.6);
+  }
+}
+
+.arc-mask {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
+}
+
+.carousel {
+  position: absolute;
+  left: 50%;
+  top: var(--cy);
+  width: 0;
+  height: 0;
+  animation: spin 120s linear infinite;
+  will-change: transform;
+}
+
+.slot {
+  position: absolute;
+  left: calc(var(--s) / -2);
+  top: calc(var(--s) / -2);
+  width: var(--s);
+  height: var(--s);
+  transform: rotate(var(--a)) translateY(calc(var(--r) * -1)) rotate(calc(var(--a) * -1));
+}
+
+.counter {
+  width: 100%;
+  height: 100%;
+  animation: unspin 120s linear infinite;
+  will-change: transform;
+}
+
+.slot-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.slot-btn img {
+  width: 100%;
+  height: 100%;
+  border-radius: 24%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.slot-btn:hover img,
+.slot-btn:focus-visible img {
+  transform: scale(1.08);
+}
+
+.slot-btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 26%;
+}
+
+/* Hovering one artwork softens the rest. */
+.carousel:has(.slot-btn:hover) .slot-btn:not(:hover) {
+  opacity: 0.55;
+  filter: blur(3px);
+}
+
+/* Dot under the playing artwork. */
+.slot-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -22px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(21, 22, 27, 0.15);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.slot-btn[data-playing="true"]::after {
+  opacity: 1;
+  transform: scale(1);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.slot-btn[data-playing="true"] img {
+  animation: pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes unspin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+/* ---------- Releases ---------- */
+
+.release-row {
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-bottom: 1px dotted rgba(21, 22, 27, 0.25);
+}
+
+.release-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 10px;
+  background: rgba(21, 22, 27, 0.06);
+  opacity: 0;
+  transform: scale(0.98);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.release-row > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .release-row:hover {
+    transform: scale(1.01);
+    border-color: transparent;
+  }
+
+  .release-row:hover::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---------- Player ---------- */
+
+.player {
+  --record: 168px;
+  --overlap: 44px;
+}
+
+@media (max-width: 640px) {
+  .player {
+    --record: 120px;
+    --overlap: 14px;
+  }
+}
+
+.record {
+  position: relative;
+  width: var(--record);
+  height: var(--record);
+  border-radius: 50%;
+  background:
+    conic-gradient(from 20deg, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0.16) 38deg, rgba(255, 255, 255, 0) 90deg, rgba(255, 255, 255, 0) 180deg, rgba(255, 255, 255, 0.16) 218deg, rgba(255, 255, 255, 0) 270deg),
+    repeating-radial-gradient(circle at center, #1d1e24 0 2px, #121317 2px 4px);
+  box-shadow: 0 10px 30px rgba(21, 22, 27, 0.25);
+  animation: record-spin 3s linear infinite;
+  animation-play-state: paused;
+}
+
+.record[data-spinning="true"] {
+  animation-play-state: running;
+}
+
+@keyframes record-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.eq-bar {
+  width: 2px;
+  height: 20%;
+  border-radius: 1px;
+  background: var(--ink);
+  animation: eq 0.5s ease-in-out infinite alternate;
+}
+
+.eq-bar:nth-child(1) {
+  animation-delay: -0.5s;
+  --lo: 12%;
+  --hi: 75%;
+}
+.eq-bar:nth-child(2) {
+  animation-delay: 0ms;
+  --lo: 35%;
+  --hi: 100%;
+}
+.eq-bar:nth-child(3) {
+  animation-delay: -0.8s;
+  --lo: 18%;
+  --hi: 55%;
+}
+.eq-bar:nth-child(4) {
+  animation-delay: -0.3s;
+  --lo: 40%;
+  --hi: 90%;
+}
+
+@keyframes eq {
+  from {
+    height: var(--lo);
+  }
+  to {
+    height: var(--hi);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel,
+  .counter,
+  .record,
+  .eq-bar,
+  .slot-btn[data-playing="true"]::after {
+    animation: none;
+  }
+}
