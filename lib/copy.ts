@@ -46,6 +46,7 @@ export const SIGNUP = {
   emailLabel: "Email",
   emailPlaceholder: "you@email.com",
   consent: "I agree to be contacted about the waiting list, early access and exclusive offers.",
+  privacyLink: "Privacy notice",
   button: "Join the waiting list",
   buttonBusy: "Joining",
   successTitle: "You're on the list.",

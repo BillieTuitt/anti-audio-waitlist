@@ -27,12 +27,17 @@ its name is never selected or shown. Tracks with no `preview_key` are skipped.
 
 ## Sign up form
 
-The form at the bottom of the page posts to `app/api/waitlist/route.ts`, which validates name,
-email and consent (with a honeypot field). **It does not store anything yet.** In development it
-logs the sign up and returns success so the form can be designed and tested. In production it
-returns a 503 ("Sign ups are not open just yet") rather than silently dropping people's details.
-Before launch, wire it to a real destination (an email tool, a CRM, or a Supabase table with an
-insert policy) and add a privacy notice link next to the consent checkbox.
+The form at the bottom of the page posts to `app/api/waitlist/route.ts`, which validates name, email
+and consent (with a honeypot field) and inserts into the `waitlist_signups` table in the existing
+Supabase project. The table comes from `supabase/migrations/0032_waitlist_signups.sql` in the main
+Anti Audio repo and is **insert-only for the anon key**, so this site needs no secret key and the
+public key can never read anyone's details back. A repeat email counts as success.
+
+Until that migration has been run in the Supabase SQL Editor, development simulates success and
+production returns a 503 rather than silently dropping details.
+
+The privacy notice at `/privacy` is a **draft**: complete the bracketed details (company, contact
+email, retention, email provider) and have it reviewed before launch.
 
 ## Placeholders to replace
 

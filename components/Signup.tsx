@@ -238,7 +238,17 @@ export function Signup() {
                 aria-invalid={Boolean(errors.consent)}
                 className="signup-check mt-[2px]"
               />
-              <span>{SIGNUP.consent}</span>
+              <span>
+                {SIGNUP.consent}{" "}
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="whitespace-nowrap text-ink underline decoration-dashed decoration-1 underline-offset-4 transition-colors hover:decoration-accent"
+                >
+                  {SIGNUP.privacyLink}
+                </a>
+              </span>
             </label>
 
             <p
