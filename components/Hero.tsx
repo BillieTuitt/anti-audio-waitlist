@@ -7,7 +7,7 @@ import { COPY } from "@/lib/copy";
 import { usePlayer } from "@/components/PlayerProvider";
 
 // Slots around the ring. Fewer tracks than this just repeat to fill it.
-const MIN_SLOTS = 16;
+const MIN_SLOTS = 12;
 
 export function Hero({ tracks }: { tracks: Track[] }) {
   const { play, isActive, open } = usePlayer();
@@ -79,7 +79,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
         ref={scriptRef}
         aria-hidden
         data-hero-fade
-        className="pointer-events-none absolute left-0 top-[24%] z-0 w-full select-none whitespace-nowrap text-center font-display text-[clamp(72px,16vw,240px)] font-normal italic leading-none text-white/90 [text-shadow:0_0_1px_rgba(255,255,255,0.4)]"
+        className="pointer-events-none absolute left-0 top-[24%] z-0 w-full select-none whitespace-nowrap text-center font-display text-[clamp(64px,15vw,220px)] font-bold leading-none text-white/90 [text-shadow:0_0_1px_rgba(255,255,255,0.4)]"
       >
         {COPY.scriptLine}
       </div>
@@ -115,17 +115,14 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       </div>
 
       <div className="pointer-events-none absolute left-1/2 top-[var(--cy)] z-20 -translate-x-1/2 -translate-y-1/2">
-        <div data-hero-centre className="relative">
-          <div
-            className="flex items-center justify-center rounded-full bg-accent shadow-[0_18px_50px_rgba(21,22,27,0.14)]"
-            style={{ width: "var(--c)", height: "var(--c)" }}
+        <div data-hero-centre className="flex flex-col items-center text-center">
+          <img src="/brand/logo-wordmark.svg" alt="Anti Audio" style={{ width: "var(--wm)" }} />
+          <h1
+            className="mt-5 text-balance font-display font-bold leading-[1.05] sm:mt-6"
+            style={{ width: "var(--heading-w)", fontSize: "clamp(18px, 2.4vw, 34px)" }}
           >
-            <img src="/brand/logo-icon.svg" alt="Anti Audio" className="w-[44%]" />
-          </div>
-          <div className="absolute left-1/2 top-full mt-4 -translate-x-1/2 whitespace-nowrap text-center">
-            <p className="font-display text-[clamp(18px,2.2vw,28px)] leading-none">Anti Audio</p>
-            <p className="mt-2 font-mono text-[11px] tracking-wide text-ink/55">{COPY.heroLabel}</p>
-          </div>
+            {COPY.heroHeading}
+          </h1>
         </div>
       </div>
 
