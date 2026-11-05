@@ -14,6 +14,38 @@ const MAX_STRETCH = 1.35;
 // ...and never wider than this share of the viewport on each side of centre.
 const MAX_HALF_WIDTH = 0.36;
 
+// Fills the ring's slots with the tracks, in order, then places any repeats as far round the ring
+// as they can go from the other copies of the same track (so a track is never next to itself, or
+// near itself). With 10 tracks in 12 slots, the two repeats end up directly opposite their originals.
+function spreadTracks(tracks: Track[], count: number): Track[] {
+  const slots: number[] = []; // track index per slot
+  const uses = tracks.map(() => 0);
+  const ringDistance = (a: number, b: number) => {
+    const d = Math.abs(a - b);
+    return Math.min(d, count - d);
+  };
+  for (let slot = 0; slot < count; slot++) {
+    const fewest = Math.min(...uses);
+    let best = -1;
+    let bestGap = -1;
+    for (let t = 0; t < tracks.length; t++) {
+      if (uses[t] !== fewest) continue;
+      // Distance to the nearest slot already showing this track (nothing placed yet counts as far).
+      let gap = count;
+      for (let other = 0; other < slot; other++) {
+        if (slots[other] === t) gap = Math.min(gap, ringDistance(slot, other));
+      }
+      if (gap > bestGap) {
+        best = t;
+        bestGap = gap;
+      }
+    }
+    slots.push(best);
+    uses[best] += 1;
+  }
+  return slots.map((t) => tracks[t]);
+}
+
 // The hero link scrolls to the sign-up form at the bottom of the page and focuses its first field.
 function goToSignup() {
   const section = document.getElementById("join");
@@ -34,9 +66,9 @@ export function Hero({ tracks }: { tracks: Track[] }) {
   const slots = useMemo(() => {
     if (tracks.length === 0) return [];
     const count = Math.max(MIN_SLOTS, tracks.length);
-    return Array.from({ length: count }, (_, i) => ({
+    return spreadTracks(tracks, count).map((track, i) => ({
       key: i,
-      track: tracks[i % tracks.length],
+      track,
       angle: (360 / count) * i,
     }));
   }, [tracks]);
