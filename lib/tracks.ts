@@ -5,9 +5,9 @@ import { formatReleaseDate } from "@/lib/format";
 // producer's name is never selected, passed down or rendered.
 const PRODUCER_SLUG = "quincy-tellem-test";
 
-// Local placeholders (public/artwork), cycled by position, until real
-// artwork is wired in.
-const PLACEHOLDER_ARTWORK = [1, 2, 3, 4, 5].map((n) => `/artwork/placeholder-${n}.jpg`);
+// Waiting list photos (public/artwork/waitinglist-NN.jpg, resized from the originals),
+// cycled by position until each track has its own artwork.
+const TRACK_ARTWORK = Array.from({ length: 10 }, (_, i) => `/artwork/waitinglist-${String(i + 1).padStart(2, "0")}.jpg`);
 
 export interface Track {
   id: string;
@@ -77,6 +77,6 @@ export async function getTracks(): Promise<Track[]> {
       dateLabel: formatReleaseDate(row.release_date),
       durationSeconds: row.duration_seconds ?? 0,
       audioUrl: `${previewsBase}/${row.preview_key}`,
-      artwork: PLACEHOLDER_ARTWORK[index % PLACEHOLDER_ARTWORK.length],
+      artwork: TRACK_ARTWORK[index % TRACK_ARTWORK.length],
     }));
 }

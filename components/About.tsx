@@ -64,14 +64,9 @@ export function About() {
   return (
     <section ref={rootRef} id="about" aria-label="About" className="relative py-24 sm:py-36">
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-8">
-        <p className="flex items-center gap-2 font-mono text-[11px] tracking-wide text-ink">
-          <span aria-hidden className="h-2 w-2 bg-accent shadow-[0_0_0_1px_rgba(21,22,27,0.25)]" />
-          {ABOUT.eyebrow}
-        </p>
-
         <h2
           data-about-statement
-          className="mt-8 font-display text-[clamp(36px,7.4vw,120px)] font-black uppercase leading-[0.94] tracking-[-0.01em] sm:mt-12"
+          className="mx-auto max-w-[1100px] text-center font-display text-[clamp(32px,5vw,72px)] font-black uppercase leading-[0.96] tracking-[-0.01em]"
         >
           {ABOUT.statement.map((part, i) =>
             part.text.split(" ").map((word, w) =>

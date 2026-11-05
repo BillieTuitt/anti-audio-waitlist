@@ -11,7 +11,6 @@ export const COPY = {
 // unlimited downloads on every plan; Creator licenses social, podcasts and websites).
 // Wording is a first draft to be reviewed.
 export const ABOUT = {
-  eyebrow: "About Anti Audio",
   // Parts marked hl get the yellow highlight bar.
   statement: [
     { text: "Music from" },
