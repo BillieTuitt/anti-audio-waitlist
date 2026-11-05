@@ -22,16 +22,16 @@ export const ABOUT = {
   subline:
     "Anti Audio is a music licensing subscription platform for creators and creatives. Get unlimited downloads of exclusive tracks from real charting producers, licensed for your social content, podcasts and websites.",
   // Second paragraph. Each `pair` gets a dashed underline and, on hover, a fan of two images.
-  // Placeholder wording and placeholder artwork; swap in real genre artwork when it exists.
+  // Placeholder wording. The images are public/artwork/genre-<name>.jpg, in the order the genres are named.
   genres: [
     { text: "We only offer a tight, quality catalogue of culturally relevant music. From " },
-    { pair: "Trap & Drill", images: ["/artwork/placeholder-1.jpg", "/artwork/placeholder-2.jpg"] },
+    { pair: "Trap & Drill", images: ["/artwork/genre-trap.jpg", "/artwork/genre-drill.jpg"] },
     { text: " built for the feed, to " },
-    { pair: "House & Dance", images: ["/artwork/placeholder-3.jpg", "/artwork/placeholder-4.jpg"] },
+    { pair: "House & Dance", images: ["/artwork/genre-house.jpg", "/artwork/genre-dance.jpg"] },
     { text: " made to move a room, " },
-    { pair: "Afrobeats & Rap", images: ["/artwork/placeholder-5.jpg", "/artwork/placeholder-1.jpg"] },
+    { pair: "Afrobeats & Rap", images: ["/artwork/genre-afrobeats.jpg", "/artwork/genre-rap.jpg"] },
     { text: " with bounce and " },
-    { pair: "Grime & Garage", images: ["/artwork/placeholder-2.jpg", "/artwork/placeholder-3.jpg"] },
+    { pair: "Grime & Garage", images: ["/artwork/genre-grime.jpg", "/artwork/genre-garage.jpg"] },
     { text: " straight from the underground." },
   ] as ({ text: string } | { pair: string; images: string[] })[],
 };
