@@ -34,7 +34,7 @@ type Row = {
   release_date: string | null;
 };
 
-// The first five tracks, in this order, lead everywhere (list numbers 001 to 005 and the
+// The first five tracks, in this order, lead everywhere (list numbers 01 to 05 and the
 // hero ring). Everything else follows in the query's own order. Matched on title, ignoring case.
 const FEATURED_ORDER = ["sydney", "swan lake", "same for you", "dreamlife", "birkin"];
 

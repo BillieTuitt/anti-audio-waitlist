@@ -29,7 +29,7 @@ export function Releases({ tracks }: { tracks: Track[] }) {
 
       <ol className="m-0 list-none p-0">
         {tracks.map((track, index) => {
-          const number = String(index + 1).padStart(3, "0");
+          const number = String(index + 1).padStart(2, "0");
           const active = isActive(track.id);
           const playing = isPlaying(track.id);
           return (
@@ -39,7 +39,7 @@ export function Releases({ tracks }: { tracks: Track[] }) {
               <div
                 onClick={() => play(track)}
                 className="grid cursor-pointer select-none grid-cols-[2.25rem_3rem_minmax(0,1fr)_auto] items-center gap-3 px-2 py-3 sm:gap-4 sm:px-4 md:grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_7rem_4rem_7rem]">
-                <span className="flex items-center gap-1.5 font-mono text-[12px] tabular-nums text-ink/60">
+                <span className="flex items-center gap-1.5 font-mono text-[12px] tabular-nums text-ink/70">
                   {number}
                   <span
                     aria-hidden
