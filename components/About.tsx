@@ -93,14 +93,14 @@ export function About() {
 
         <p
           data-subline
-          className="mt-10 max-w-[42ch] font-sans text-[clamp(22px,2.6vw,40px)] leading-[1.3] text-ink/80 sm:mt-14"
+          className="mx-auto mt-10 max-w-[42ch] text-center font-sans text-[clamp(22px,2.6vw,40px)] leading-[1.3] text-ink/80 sm:mt-14"
         >
           {ABOUT.subline}
         </p>
 
         <p
           data-genres-para
-          className="mt-10 max-w-[42ch] font-sans text-[clamp(22px,2.6vw,40px)] leading-[1.3] text-ink/80 sm:mt-16"
+          className="mx-auto mt-10 max-w-[42ch] text-center font-sans text-[clamp(22px,2.6vw,40px)] leading-[1.3] text-ink/80 sm:mt-16"
         >
           {ABOUT.genres.map((part, i) =>
             "pair" in part ? (

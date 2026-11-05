@@ -9,7 +9,7 @@
   --ink-rgb: 231 234 240;
   --accent: #f6c944;
   /* The big "ANTI AUDIO" banner behind the hero: a faint lift on the dark background. */
-  --banner: rgba(255, 255, 255, 0.06);
+  --banner: rgba(255, 255, 255, 0.03);
   /* Highlight bar insets, set so the cap height sits centred in the yellow. */
   --hl-top: -0.0275em;
   --hl-bottom: 0.0525em;
