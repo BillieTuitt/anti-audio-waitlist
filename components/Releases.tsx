@@ -8,10 +8,9 @@ export function Releases({ tracks }: { tracks: Track[] }) {
   const { play, isActive, isPlaying } = usePlayer();
 
   return (
-    <section aria-label="Releases" className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-8 sm:py-24">
-      <div className="mb-4 flex items-baseline justify-between px-2 sm:px-4">
-        <h2 className="font-display text-[clamp(28px,4vw,48px)] font-bold leading-none">RELEASES</h2>
-        <p className="font-mono text-[11px] tracking-wide text-ink/55">{tracks.length} tracks</p>
+    <section aria-label="Library preview" className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-8 sm:py-24">
+      <div className="mb-4 px-2 sm:px-4">
+        <h2 className="font-display text-[clamp(28px,4vw,48px)] font-bold leading-none">LIBRARY PREVIEW</h2>
       </div>
 
       <div
