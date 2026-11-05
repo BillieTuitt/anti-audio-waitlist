@@ -46,7 +46,7 @@ body {
 @media (max-width: 640px) {
   .hero {
     --r: min(36vw, 46vh);
-    --s: calc(var(--r) * 0.36);
+    --s: calc(var(--r) * 0.4);
     --wm: calc(var(--r) * 0.85);
     --heading-size: min(calc(var(--r) * 0.22), calc(var(--r) * var(--kx, 1) * 0.2));
     --heading-w: calc(var(--r) * 1.6);
