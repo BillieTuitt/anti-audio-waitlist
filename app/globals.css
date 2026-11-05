@@ -45,31 +45,18 @@ body {
 
 @media (max-width: 640px) {
   .hero {
-    /* --u is the unit the centre text is sized from. The ring itself is about twice as
-       wide as the screen's comfortable fit, so its sides run off both edges and its
-       lower half sits under the fade at the bottom (.arc-mask), like on desktop. */
-    --u: min(36vw, 46vh);
-    --r: calc(var(--u) * 2.1);
-    --s: calc(var(--u) * 0.85);
-    --wm: calc(var(--u) * 0.85);
-    --heading-size: min(calc(var(--u) * 0.22), calc(var(--u) * var(--kx, 1) * 0.2));
-    --heading-w: calc(var(--u) * 1.6);
-    --cy: 52%;
+    --r: min(36vw, 46vh);
+    --s: calc(var(--r) * 0.36);
+    --wm: calc(var(--r) * 0.85);
+    --heading-size: min(calc(var(--r) * 0.22), calc(var(--r) * var(--kx, 1) * 0.2));
+    --heading-w: calc(var(--r) * 1.6);
+    --cy: 50%;
   }
 }
 
 .arc-mask {
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 94%);
-}
-
-/* On a phone the ring is bigger than the screen, so the fade starts higher and finishes
-   sooner to cover its whole lower edge. */
-@media (max-width: 640px) {
-  .arc-mask {
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 54%, transparent 86%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 54%, transparent 86%);
-  }
 }
 
 /* Stretches the ring into a wide ellipse (--kx is set from Hero.tsx). The tiles
