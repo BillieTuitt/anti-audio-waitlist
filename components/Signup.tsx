@@ -141,13 +141,9 @@ export function Signup() {
       <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-16 px-4 sm:px-8 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] md:gap-20">
         {/* Left: the invitation */}
         <div>
-          <p data-signup-rise className="flex items-center gap-2 font-mono text-[11px] tracking-wide text-ink">
-            <span aria-hidden className="h-2 w-2 bg-accent" />
-            {SIGNUP.eyebrow}
-          </p>
           <h2
             data-signup-rise
-            className="mt-8 font-display text-[clamp(40px,6vw,98px)] font-medium uppercase leading-[0.98] tracking-[-0.01em] sm:mt-10"
+            className="font-display text-[clamp(36px,5vw,80px)] font-black uppercase leading-[0.98] tracking-[-0.01em]"
           >
             <span className="block">Join the</span>
             <span className="block">waiting list</span>

@@ -38,7 +38,6 @@ export const ABOUT = {
 
 // Sign-up block at the bottom of the page. Draft wording to be reviewed.
 export const SIGNUP = {
-  eyebrow: "Early access",
   heading: "Join the waiting list",
   subline: "Join our waiting list for early access and exclusive offers.",
   nameLabel: "Name",

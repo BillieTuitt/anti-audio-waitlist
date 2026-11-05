@@ -14,13 +14,12 @@ export function Releases({ tracks }: { tracks: Track[] }) {
       </div>
 
       <div
-        className="hidden grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_7rem_4rem_7rem] items-center gap-4 px-4 py-3 font-mono text-[11px] tracking-wide text-ink/55 md:grid"
+        className="hidden grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_4rem_7rem] items-center gap-4 px-4 py-3 font-mono text-[11px] tracking-wide text-ink/55 md:grid"
         aria-hidden
       >
         <span>No.</span>
         <span />
         <span>Title</span>
-        <span>Date</span>
         <span>Genre</span>
         <span className="text-right">Length</span>
         <span />
@@ -37,7 +36,7 @@ export function Releases({ tracks }: { tracks: Track[] }) {
                   own: their clicks (and Enter/Space on the Play button) bubble up to this one. */}
               <div
                 onClick={() => play(track)}
-                className="grid cursor-pointer select-none grid-cols-[2.25rem_3rem_minmax(0,1fr)_auto] items-center gap-3 px-2 py-3 sm:gap-4 sm:px-4 md:grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_7rem_4rem_7rem]">
+                className="grid cursor-pointer select-none grid-cols-[2.25rem_3rem_minmax(0,1fr)_auto] items-center gap-3 px-2 py-3 sm:gap-4 sm:px-4 md:grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_4rem_7rem]">
                 <span className="flex items-center gap-1.5 font-mono text-[12px] tabular-nums text-ink/70">
                   {number}
                   <span
@@ -59,14 +58,12 @@ export function Releases({ tracks }: { tracks: Track[] }) {
                 <div className="min-w-0">
                   <p className="truncate font-display text-[20px] leading-tight sm:text-[24px]">{track.title}</p>
                   <p className="mt-1 font-mono text-[11px] leading-[1.5] tracking-wide text-ink/55 md:hidden">
-                    <span className="block">{track.dateLabel}</span>
                     <span className="block truncate">
                       {[track.genre, formatTime(track.durationSeconds)].filter(Boolean).join(" · ")}
                     </span>
                   </p>
                 </div>
 
-                <span className="hidden font-mono text-[12px] text-ink/70 md:block">{track.dateLabel}</span>
                 <span className="hidden truncate font-mono text-[12px] text-ink/70 md:block">{track.genre}</span>
                 <span className="hidden text-right font-mono text-[12px] tabular-nums text-ink/70 md:block">
                   {formatTime(track.durationSeconds)}
