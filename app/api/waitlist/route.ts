@@ -18,8 +18,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  // Honeypot: real people never fill this hidden field. Pretend it worked.
-  if (typeof body.company === "string" && body.company.trim() !== "") {
+  // Honeypot: real people never fill this hidden field. Pretend it worked, but leave a trace:
+  // browser autofill once filled a field like this and silently dropped real sign ups.
+  if (typeof body.trap === "string" && body.trap.trim() !== "") {
+    console.warn("[waitlist] honeypot field was filled; sign up ignored.");
     return NextResponse.json({ ok: true });
   }
 

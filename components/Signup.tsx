@@ -56,7 +56,9 @@ export function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
-  const [company, setCompany] = useState(""); // honeypot
+  // Honeypot. Its name is deliberately meaningless: a field called "company" gets filled in by
+  // browser autofill and password managers, which silently threw away real sign ups.
+  const [trap, setTrap] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
 
@@ -111,7 +113,7 @@ export function Signup() {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), consent, company }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), consent, trap }),
       });
       const data = (await response.json().catch(() => ({}))) as { error?: string };
       if (!response.ok) {
@@ -161,9 +163,8 @@ export function Signup() {
           <div role="status" className="self-center">
             <p
               data-success-rise
-              className="flex items-center gap-4 font-display text-[clamp(30px,3.6vw,56px)] font-medium leading-[1.05]"
+              className="font-display text-[clamp(32px,4vw,64px)] font-black uppercase leading-[1.02] tracking-[-0.01em]"
             >
-              <span aria-hidden className="h-[0.22em] w-[0.22em] shrink-0 bg-accent" />
               {SIGNUP.successTitle}
             </p>
             <p data-success-rise className="mt-5 max-w-[34ch] font-sans text-[17px] leading-snug text-ink/70">
@@ -212,15 +213,18 @@ export function Signup() {
               </Field>
             </div>
 
-            {/* Honeypot: hidden from people, tempting to bots. */}
+            {/* Honeypot: hidden from people, tempting to bots. Autofill and password managers are
+                told to leave it alone, and the name gives them nothing to match on. */}
             <input
               type="text"
-              name="company"
+              name="hp_trap_x7"
               tabIndex={-1}
               autoComplete="off"
+              data-lpignore="true"
+              data-1p-ignore
               aria-hidden
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
+              value={trap}
+              onChange={(e) => setTrap(e.target.value)}
               className="absolute -left-[9999px] h-0 w-0 opacity-0"
             />
 
