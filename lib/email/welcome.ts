@@ -151,7 +151,10 @@ export async function sendWelcomeEmail(to: string, name: string): Promise<void> 
   try {
     const { subject, html, text } = buildEmail(name);
     const resend = new Resend(apiKey);
-    const send = resend.emails.send({ from: FROM, to, replyTo: REPLY_TO, subject, html, text });
+    // List-Unsubscribe is a header mailbox providers (Outlook and Gmail especially) look for;
+    // its absence counts against a sender. The mailto matches the Unsubscribe link in the body.
+    const headers = { "List-Unsubscribe": `<mailto:${REPLY_TO}?subject=Unsubscribe>` };
+    const send = resend.emails.send({ from: FROM, to, replyTo: REPLY_TO, subject, html, text, headers });
     const timeout = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error(`timed out after ${SEND_TIMEOUT_MS}ms`)), SEND_TIMEOUT_MS),
     );
