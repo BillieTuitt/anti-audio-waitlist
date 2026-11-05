@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Mono, UnifrakturCook } from "next/font/google";
+import { DM_Mono } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
@@ -7,14 +7,6 @@ const dmMono = DM_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-dm-mono",
-  display: "swap",
-});
-
-// Blackletter, used only for the big "waiting list" banner behind the hero.
-const gothic = UnifrakturCook({
-  subsets: ["latin"],
-  weight: "700",
-  variable: "--font-gothic",
   display: "swap",
 });
 
@@ -31,7 +23,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB" className={`${GeistSans.variable} ${dmMono.variable} ${gothic.variable}`}>
+    <html lang="en-GB" className={`${GeistSans.variable} ${dmMono.variable}`}>
       <head>
         {/* Owners, from the Adobe Fonts kit. The kit's domain list must include the live domain. */}
         <link rel="preconnect" href="https://use.typekit.net" crossOrigin="" />

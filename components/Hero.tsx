@@ -119,7 +119,7 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       >
         <div
           ref={scriptRef}
-          className="flex w-max whitespace-nowrap font-gothic text-[clamp(64px,15vw,220px)] leading-none text-[color:var(--banner)]"
+          className="flex w-max whitespace-nowrap font-display text-[clamp(64px,15vw,220px)] font-bold leading-none text-[color:var(--banner)]"
         >
           {[0, 1].map((group) => (
             <div key={group} className="flex shrink-0 gap-[0.35em] pr-[0.35em]">

@@ -13,7 +13,6 @@ const config: Config = {
       fontFamily: {
         // Owners comes from the Adobe Fonts kit linked in app/layout.tsx.
         display: ["owners", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
-        gothic: ["var(--font-gothic)", "Georgia", "serif"],
         mono: ["var(--font-dm-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
       },
