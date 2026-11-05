@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" fill="#15161B"/>
-  <path transform="translate(8 20.3) scale(0.05411)" fill="#E7EAF0" d="M0.221 165.008H443.942V0.198H887.663V431.242H0.221Z"/>
+  <style>
+    path { fill: #15161B; }
+    @media (prefers-color-scheme: dark) { path { fill: #E7EAF0; } }
+  </style>
+  <path transform="translate(1 16.9) scale(0.0699)" d="M0.221 165.008H443.942V0.198H887.663V431.242H0.221Z"/>
 </svg>
