@@ -485,3 +485,24 @@ body {
 .signup-check[aria-invalid="true"] {
   border-color: var(--accent);
 }
+
+/* Phone-only "Scroll down" cue under the hero: the arrow nudges downwards. */
+.scroll-cue-arrow {
+  animation: scroll-cue 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-arrow {
+    animation: none;
+  }
+}

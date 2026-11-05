@@ -5,6 +5,7 @@ export const COPY = {
   heroHeading: "BIG SOUNDS FOR BIG IDEAS",
   heroCta: "Join the waiting list",
   hint: "Click an artwork to play",
+  scrollCue: "Scroll down",
 };
 
 // About section. Claims are checked against the main app's pricing (lib/pricing.ts:
@@ -29,7 +30,7 @@ export const ABOUT = {
     { pair: "House & Dance", images: ["/artwork/placeholder-3.jpg", "/artwork/placeholder-4.jpg"] },
     { text: " made to move a room, " },
     { pair: "Afrobeats & Rap", images: ["/artwork/placeholder-5.jpg", "/artwork/placeholder-1.jpg"] },
-    { text: " with real swagger and " },
+    { text: " with proper bounce and " },
     { pair: "Grime & Garage", images: ["/artwork/placeholder-2.jpg", "/artwork/placeholder-3.jpg"] },
     { text: " straight from the underground." },
   ] as ({ text: string } | { pair: string; images: string[] })[],

@@ -46,6 +46,13 @@ function spreadTracks(tracks: Track[], count: number): Track[] {
   return slots.map((t) => tracks[t]);
 }
 
+// The phone-only "Scroll down" cue moves on to the About section.
+function goToAbout(event: React.MouseEvent) {
+  event.preventDefault();
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById("about")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+}
+
 // The hero link scrolls to the sign-up form at the bottom of the page and focuses its first field.
 function goToSignup() {
   const section = document.getElementById("join");
@@ -214,12 +221,25 @@ export function Hero({ tracks }: { tracks: Track[] }) {
       {/* GSAP fades the <p> in; the inner span owns the CSS fade-out while the player is open. */}
       <p
         data-hero-fade
-        className="pointer-events-none absolute bottom-7 left-0 right-0 z-30 text-center font-mono text-[11px] tracking-wide text-ink"
+        className="pointer-events-none absolute bottom-7 left-0 right-0 z-30 text-center font-mono text-[11px] tracking-wide text-ink max-sm:bottom-[4.5rem]"
       >
         <span className="transition-opacity duration-500" style={{ opacity: open ? 0 : 1 }}>
           {COPY.hint}
         </span>
       </p>
+
+      {/* Phones only: the hero fills the screen, so say there is more below. */}
+      <a
+        href="#about"
+        data-hero-fade
+        onClick={goToAbout}
+        className="scroll-cue absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1.5 px-4 py-1 font-mono text-[11px] tracking-wide text-ink sm:hidden"
+      >
+        {COPY.scrollCue}
+        <svg aria-hidden width="12" height="14" viewBox="0 0 12 14" fill="none" className="scroll-cue-arrow">
+          <path d="M6 1v11M1.5 7.5 6 12l4.5-4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
     </section>
   );
 }
