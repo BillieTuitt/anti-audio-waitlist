@@ -34,7 +34,11 @@ export function Releases({ tracks }: { tracks: Track[] }) {
           const playing = isPlaying(track.id);
           return (
             <li key={track.id} className="release-row">
-              <div className="grid grid-cols-[2.25rem_3rem_minmax(0,1fr)_auto] items-center gap-3 px-2 py-3 sm:gap-4 sm:px-4 md:grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_7rem_4rem_7rem]">
+              {/* The whole row is the click target. The two buttons inside carry no handler of their
+                  own: their clicks (and Enter/Space on the Play button) bubble up to this one. */}
+              <div
+                onClick={() => play(track)}
+                className="grid cursor-pointer select-none grid-cols-[2.25rem_3rem_minmax(0,1fr)_auto] items-center gap-3 px-2 py-3 sm:gap-4 sm:px-4 md:grid-cols-[3rem_3.5rem_minmax(0,1fr)_7rem_7rem_4rem_7rem]">
                 <span className="flex items-center gap-1.5 font-mono text-[12px] tabular-nums text-ink/60">
                   {number}
                   <span
@@ -48,7 +52,6 @@ export function Releases({ tracks }: { tracks: Track[] }) {
                   type="button"
                   tabIndex={-1}
                   aria-hidden
-                  onClick={() => play(track)}
                   className="block h-12 w-12 overflow-hidden md:h-14 md:w-14"
                 >
                   <img src={track.artwork} alt="" className="h-full w-full object-cover" draggable={false} />
@@ -73,7 +76,6 @@ export function Releases({ tracks }: { tracks: Track[] }) {
                 <div className="flex justify-end">
                   <button
                     type="button"
-                    onClick={() => play(track)}
                     aria-label={`${playing ? "Pause" : "Play"} ${track.title}`}
                     className="border border-ink/30 px-3 py-1.5 font-mono sm:px-4 sm:py-2 text-[11px] tracking-wide transition-colors hover:border-ink hover:bg-ink hover:text-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
